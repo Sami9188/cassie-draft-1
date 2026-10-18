@@ -1,4 +1,4 @@
-# CASSIE Perfumes — Website Draft 1 ("Teal & Peach")
+# CASSIE Perfumes — Website Draft 1 ("Burgundy & Blush")
 
 First design direction for the CASSIE Perfumes website redesign, prepared by The Digital Elites for client review.
 
@@ -7,7 +7,7 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-A clean, structured B2B manufacturing site. Typography follows the YFC homepage preview (Inter Tight, uppercase 800 headings, bar eyebrows, 17px body, pill tags, rounded buttons, 1200px frame). Colour is deep petrol teal for the hero, process, quotation and footer, white and soft tints for the rest, and a peach-to-coral gradient for actions.
+A clean, structured B2B manufacturing site. Typography follows the YFC homepage preview (Inter Tight, uppercase 800 headings, bar eyebrows, 17px body, pill tags, rounded buttons, 1200px frame). Only the type system is borrowed from that reference. Colour is CASSIE's own perfume-house palette: deep burgundy for the hero, process, quotation and footer, ivory and blush tints for the rest, and a blush-to-copper gradient for actions.
 
 ## Sections
 

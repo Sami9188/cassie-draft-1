@@ -52,8 +52,8 @@
   // Packaging configurator
   const render = document.getElementById('packRender');
   if (render) {
-    const state = { shape: 'facet', cap: 'block', capColor: 'black', glass: 'clear', label: 'YOUR BRAND', sub: 'EAU DE PARFUM', liquid: '#f0b28a' };
-    const liquids = { noir: '#2a1c10', clear: '#f0b28a', frosted: '#e9dcc2', amber: '#9b531c', smoke: '#5a4a3a', rose: '#f0b4aa' };
+    const state = { shape: 'facet', cap: 'block', capColor: 'rosegold', glass: 'clear', label: 'YOUR BRAND', sub: 'EAU DE PARFUM', liquid: '#c2516f' };
+    const liquids = { noir: '#2a1c10', clear: '#c2516f', frosted: '#e9dcc2', amber: '#9b531c', smoke: '#5a4a3a', rose: '#f0b4aa' };
     const names = {
       shape: { facet: 'Facet', flacon: 'Flacon', column: 'Column', orb: 'Orb', slim: 'Slim' },
       cap: { block: 'Zamac block cap', tall: 'Tower cap', dome: 'Dome cap', crystal: 'Crystal cap', disc: 'Disc cap' },
