@@ -40,6 +40,10 @@
       case 'crystal':
         return `<path d="M100 18 L136 50 L124 98 L76 98 L64 50 Z" fill="url(#${g})" opacity="0.92"/>
                 <path d="M100 18 L112 50 L100 98 L88 50 Z" fill="rgba(255,255,255,0.35)"/>`;
+      case 'spray': // atomiser actuator, nozzle on the left at (88, 80)
+        return `<rect x="88" y="66" width="24" height="32" rx="4" fill="url(#${g})"/>
+                <rect x="88" y="66" width="24" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+                <ellipse class="nozzle" cx="89.2" cy="80" rx="1.6" ry="2.2" fill="rgba(0,0,0,0.55)"/>`;
       case 'disc':
         return `<rect x="58" y="70" width="84" height="28" rx="4" fill="url(#${g})"/>`;
       default: // block
