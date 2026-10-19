@@ -1,4 +1,4 @@
-# CASSIE Perfumes — Website Draft 1 (brand book direction)
+# CASSIE Perfumes — Website Draft 1
 
 First design direction for the CASSIE Perfumes website redesign, prepared by The Digital Elites for client review.
 
@@ -7,17 +7,18 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-Built to the CASSIE brand book ("The scent behind your name."). Colour is Vetiver, Porcelain, Mist and Ink, with Saffron kept to about 5% of any layout. Type is Newsreader for display, Hanken Grotesk for text and IBM Plex Mono for labels and data. The open-C monogram, scent trail pattern, formula tags and the six-step process line come straight from the book. Motion is a 10px fade-in, a 2px button lift and one scent trail that draws itself under the hero.
+Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Newsreader for display with one italic phrase per headline, Hanken Grotesk for text, IBM Plex Mono only for labels and data. The open-C monogram lockup, fine scent-trail lines, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and one scent trail that draws itself in the hero.
 
 ## Sections
 
-1. Hero — tagline, private-label offer, bottle render on Mist, proof figures (placeholders)
-2. Capabilities — bespoke development (ODM), private label, contract filling (OEM)
-3. Process — six steps from brief to document & ship
-4. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the brief
-5. Compliance — formula tags for IFRA, allergens, SDS, AICIS, CPNP, MoCRA and an example spec sheet
-6. Start a brief — four-step request for quotation with a sample-kit option
-7. Footer with Cassie Signature link, contact, WhatsApp button
+1. Hero — manufacturing-first headline, bottle composition on Mist
+2. Key figures (placeholders)
+3. What we manufacture — OEM, ODM, private/white label, bulk supply & export
+4. Manufacturing process — six steps
+5. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
+6. Quality & compliance hub
+7. Portfolio (anonymised)
+8. Four-step request for quotation with sample-kit option, footer, WhatsApp button
 
 ## Notes
 

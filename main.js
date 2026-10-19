@@ -33,7 +33,7 @@
       io.unobserve(en.target);
     });
   }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal, [data-observe]').forEach(function (el) { io.observe(el); });
+  document.querySelectorAll('.reveal, .process, .stat, [data-observe]').forEach(function (el) { io.observe(el); });
 
   function countUp(el) {
     if (el.dataset.done) return;
@@ -86,7 +86,7 @@
     if (toRfq && field) toRfq.addEventListener('click', function () { field.value = 'Configuration: ' + describe(); });
   }
 
-  // "Request a sample kit" pre-ticks the sample box in the brief
+  // "Order a Sample Kit" pre-ticks the sample box in the quotation form
   const sampleBox = document.getElementById('sampleBox');
   document.querySelectorAll('[data-sample]').forEach(function (a) {
     a.addEventListener('click', function () { if (sampleBox) sampleBox.checked = true; });
