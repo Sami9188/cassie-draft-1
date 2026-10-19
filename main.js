@@ -33,7 +33,7 @@
       io.unobserve(en.target);
     });
   }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal, .process, .stat, [data-observe]').forEach(function (el) { io.observe(el); });
+  document.querySelectorAll('.reveal, [data-observe]').forEach(function (el) { io.observe(el); });
 
   function countUp(el) {
     if (el.dataset.done) return;
@@ -52,8 +52,8 @@
   // Packaging configurator
   const render = document.getElementById('packRender');
   if (render) {
-    const state = { shape: 'facet', cap: 'block', capColor: 'rosegold', glass: 'clear', label: 'YOUR BRAND', sub: 'EAU DE PARFUM', liquid: '#c2516f' };
-    const liquids = { noir: '#2a1c10', clear: '#c2516f', frosted: '#e9dcc2', amber: '#9b531c', smoke: '#5a4a3a', rose: '#f0b4aa' };
+    const state = { shape: 'facet', cap: 'block', capColor: 'black', glass: 'clear', label: 'YOUR BRAND', sub: 'EAU DE PARFUM', liquid: '#d9a24e' };
+    const liquids = { noir: '#2a1c10', clear: '#d9a24e', frosted: '#e9dcc2', amber: '#9b531c', smoke: '#5a4a3a', rose: '#f0b4aa' };
     const names = {
       shape: { facet: 'Facet', flacon: 'Flacon', column: 'Column', orb: 'Orb', slim: 'Slim' },
       cap: { block: 'Zamac block cap', tall: 'Tower cap', dome: 'Dome cap', crystal: 'Crystal cap', disc: 'Disc cap' },
@@ -85,6 +85,12 @@
     const field = document.getElementById('packField');
     if (toRfq && field) toRfq.addEventListener('click', function () { field.value = 'Configuration: ' + describe(); });
   }
+
+  // "Request a sample kit" pre-ticks the sample box in the brief
+  const sampleBox = document.getElementById('sampleBox');
+  document.querySelectorAll('[data-sample]').forEach(function (a) {
+    a.addEventListener('click', function () { if (sampleBox) sampleBox.checked = true; });
+  });
 
   // Multi-step RFQ
   const form = document.getElementById('rfqForm');

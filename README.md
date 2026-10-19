@@ -1,4 +1,4 @@
-# CASSIE Perfumes — Website Draft 1 ("Burgundy & Blush")
+# CASSIE Perfumes — Website Draft 1 (brand book direction)
 
 First design direction for the CASSIE Perfumes website redesign, prepared by The Digital Elites for client review.
 
@@ -7,26 +7,20 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-A clean, structured B2B manufacturing site. Typography follows the YFC homepage preview (Inter Tight, uppercase 800 headings, bar eyebrows, 17px body, pill tags, rounded buttons, 1200px frame). Only the type system is borrowed from that reference. Colour is CASSIE's own perfume-house palette: deep burgundy for the hero, process, quotation and footer, ivory and blush tints for the rest, and a blush-to-copper gradient for actions.
+Built to the CASSIE brand book ("The scent behind your name."). Colour is Vetiver, Porcelain, Mist and Ink, with Saffron kept to about 5% of any layout. Type is Newsreader for display, Hanken Grotesk for text and IBM Plex Mono for labels and data. The open-C monogram, scent trail pattern, formula tags and the six-step process line come straight from the book. Motion is a 10px fade-in, a 2px button lift and one scent trail that draws itself under the hero.
 
 ## Sections
 
-1. Hero — manufacturing-first headline over CASSIE's brand film, floating bottle render
-2. Key figures (placeholders)
-3. What we manufacture — OEM, ODM, private/white label, bulk supply & export
-4. Manufacturing process — six steps
-5. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
-6. Capabilities buyers audit
-7. Quality & compliance hub
-8. Bulk supply & export markets
-9. Portfolio (anonymised)
-10. Four-step request for quotation, sample kit, about & team
-11. CASSIE Fragrances (own-brand retail, secondary) and distributor enquiry
-12. Insights, footer, WhatsApp button
+1. Hero — tagline, private-label offer, bottle render on Mist, proof figures (placeholders)
+2. Capabilities — bespoke development (ODM), private label, contract filling (OEM)
+3. Process — six steps from brief to document & ship
+4. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the brief
+5. Compliance — formula tags for IFRA, allergens, SDS, AICIS, CPNP, MoCRA and an example spec sheet
+6. Start a brief — four-step request for quotation with a sample-kit option
+7. Footer with Cassie Signature link, contact, WhatsApp button
 
 ## Notes
 
 - Static HTML/CSS/JS, no build step, no external libraries. Fonts load from Google Fonts.
-- Brand film and product photos are hotlinked from cassieperfumes.com and fall back to rendered bottles if unavailable.
-- Figures (MOQs, counts) and certifications are placeholders for design review and must be confirmed by CASSIE.
+- Figures marked with a sand-coloured chip are placeholders and must be confirmed by CASSIE.
 - Forms are front-end demos; CRM / email wiring is part of the build phase.
