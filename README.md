@@ -20,6 +20,14 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 7. Portfolio (anonymised)
 8. Four-step request for quotation with sample-kit option, footer, WhatsApp button
 
+## Pages
+
+- `index.html` — home (sections above)
+- `about.html` — story, company facts, how we work, leadership, CASSIE Fragrances and distributor link
+- `contact.html` — phone, email, WhatsApp, office and factory, contact form (`?topic=distributor` preselects the topic), quick routes and FAQ
+
+The header and footer are copied from `index.html` into the inner pages; change them in all three files.
+
 ## Notes
 
 - Static HTML/CSS/JS, no build step, no external libraries. Fonts load from Google Fonts.

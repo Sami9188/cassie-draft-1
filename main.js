@@ -92,6 +92,26 @@
     a.addEventListener('click', function () { if (sampleBox) sampleBox.checked = true; });
   });
 
+  // Contact form (front-end demo) with ?topic= preselection
+  const cform = document.getElementById('contactForm');
+  if (cform) {
+    const topic = new URLSearchParams(location.search).get('topic');
+    const sel = document.getElementById('topicSelect');
+    if (topic && sel && sel.querySelector('option[value="' + topic + '"]')) sel.value = topic;
+    cform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let ok = true;
+      cform.querySelectorAll('[required]').forEach(function (f) {
+        const bad = !f.value.trim() || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value));
+        f.classList.toggle('invalid', bad);
+        if (bad) ok = false;
+      });
+      if (!ok) return;
+      Array.from(cform.children).forEach(function (el) { if (!el.classList.contains('cf-done')) el.hidden = true; });
+      cform.querySelector('.cf-done').hidden = false;
+    });
+  }
+
   // Multi-step RFQ
   const form = document.getElementById('rfqForm');
   if (form) {
