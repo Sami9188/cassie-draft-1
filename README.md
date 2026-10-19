@@ -7,7 +7,7 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Newsreader for display with one italic phrase per headline, Hanken Grotesk for text, IBM Plex Mono only for labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds (`mist.js`, a canvas particle mist that pauses off-screen and is off with reduced motion).
+Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Newsreader for display with one italic phrase per headline, Hanken Grotesk for text, IBM Plex Mono only for labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus sprays entering some sections from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, portfolio cards tilt, and compliance icons draw themselves. Everything is off with reduced motion.
 
 ## Sections
 

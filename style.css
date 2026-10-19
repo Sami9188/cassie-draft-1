@@ -213,7 +213,6 @@ p { max-width: 62ch; }
 .port { min-width: 0; }
 .port-art { aspect-ratio: 3 / 4; border-radius: var(--r); display: grid; place-items: center; overflow: hidden; transition: transform .24s var(--ease); }
 .port-art svg { width: 50%; filter: drop-shadow(14px 18px 16px rgba(30, 58, 52, .16)); }
-.port:hover .port-art { transform: translateY(-2px); }
 .g-porcelain { background: linear-gradient(180deg, #FAFBF8, #ECEEE7); border: 1px solid var(--line); }
 .g-mist { background: linear-gradient(180deg, var(--mist-2), var(--mist)); }
 .g-stone { background: linear-gradient(180deg, #E6E5DF, #D6D5CD); }
@@ -276,7 +275,7 @@ p { max-width: 62ch; }
 .wa-float:hover { transform: translateY(-2px); }
 
 /* Reveal */
-.reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.reveal { opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--d, 0s); }
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -284,6 +283,82 @@ p { max-width: 62ch; }
   .process-line i { width: 100%; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Motion ---------- */
+/* Side sprays sit behind the section's content */
+[data-mist="side"] { position: relative; isolation: isolate; }
+[data-mist="side"] > .mist-canvas { z-index: -1; }
+
+/* Headlines rise word by word */
+.split.reveal { opacity: 1; transform: none; }
+.split .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .07em .1em 0; margin: 0 -.07em -.1em 0; }
+.split .w > span { display: inline-block; transform: translateY(110%); transition: transform .95s var(--ease); transition-delay: calc(var(--i) * 55ms + 80ms); }
+.split.in .w > span { transform: none; }
+
+/* Scroll progress */
+.scroll-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none; }
+.scroll-progress i { display: block; height: 100%; background: var(--saffron); transform: scaleX(0); transform-origin: left; }
+
+/* Hero bottles float and lean toward the pointer */
+.hb { transform: translate(calc(var(--mx, 0) * var(--depth) * 1px), calc(var(--my, 0) * var(--depth) * .6px)); transition: transform .8s var(--ease); }
+.hb-1 { --depth: 18; }
+.hb-2 { --depth: 10; }
+.hb-3 { --depth: 26; }
+.hb svg { animation: float 7s ease-in-out infinite; }
+.hb-1 svg { animation-duration: 8s; animation-delay: -2s; }
+.hb-3 svg { animation-duration: 9s; animation-delay: -5s; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.hero-tag { animation: float 10s ease-in-out infinite -3s; }
+
+/* Notes marquee */
+.marquee { overflow: hidden; padding: clamp(28px, 4vw, 48px) 0; border-bottom: 1px solid var(--line); }
+.marquee-track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-track > div { display: flex; align-items: center; }
+.marquee span { font-family: var(--f-display); font-size: clamp(40px, 6vw, 84px); line-height: 1; letter-spacing: -.01em; color: var(--vetiver); padding: 0 clamp(18px, 2.4vw, 34px); white-space: nowrap; transition: color .3s var(--ease); }
+.marquee span.it { font-style: italic; color: var(--saffron-deep); }
+.marquee span:hover { color: var(--saffron); }
+.marquee i { flex: none; width: 9px; height: 13px; background: var(--saffron); border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; opacity: .7; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Services: a wash of mist sweeps in behind the row */
+.service { position: relative; isolation: isolate; }
+.service::before { content: ""; position: absolute; inset: 0 -20px; z-index: -1; background: linear-gradient(90deg, var(--mist-2), rgba(228, 236, 231, 0)); transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease); }
+.service:hover::before { transform: scaleX(1); }
+.service h3, .service .num { transition: transform .4s var(--ease), color .3s var(--ease); }
+.service:hover h3 { transform: translateX(8px); }
+.service:hover .num { color: var(--saffron); }
+
+/* Process: each step lights up as the line reaches it */
+.step span { transition: background-color .5s var(--ease), border-color .5s var(--ease); transition-delay: calc(var(--n, 0) * .3s + .25s); }
+.process.in .step span { background: rgba(201, 134, 26, .16); border-color: var(--saffron); animation: ring 1.2s var(--ease) both; animation-delay: calc(var(--n, 0) * .3s + .25s); }
+@keyframes ring { from { box-shadow: 0 0 0 0 rgba(201, 134, 26, .55); } to { box-shadow: 0 0 0 16px rgba(201, 134, 26, 0); } }
+.step h4 { transition: color .3s var(--ease); }
+.step:hover h4 { color: var(--saffron); }
+
+/* Compliance: icons draw themselves */
+.comp svg { stroke-dasharray: 80; stroke-dashoffset: 80; transition: stroke-dashoffset 1.6s var(--ease), transform .3s var(--ease), color .3s var(--ease); transition-delay: calc(var(--n, 0) * 90ms + 200ms), 0s, 0s; }
+.comp.in svg { stroke-dashoffset: 0; }
+.comp:hover svg { transform: translateY(-4px); color: var(--saffron-deep); }
+
+/* Portfolio: cards unveil upward, then tilt under the pointer with a light sweep */
+.port-art { position: relative; clip-path: inset(100% 0 0 0 round var(--r)); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: clip-path 1.1s var(--ease) var(--d, 0s), transform .5s var(--ease); }
+.port.in .port-art { clip-path: inset(0 0 0 0 round var(--r)); }
+.port-art svg { transition: transform .6s var(--ease); }
+.port:hover .port-art svg { transform: translateY(-10px) scale(1.03); }
+.port-art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at var(--sx, 50%) 30%, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 70%); opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; }
+.port:hover .port-art::after { opacity: 1; }
+
+/* Primary buttons catch the light */
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .22), rgba(255, 255, 255, 0)); transform: skewX(-18deg); transition: left .7s var(--ease); }
+.btn-primary:hover::after { left: 120%; }
+@media (prefers-reduced-motion: reduce) {
+  .port-art { clip-path: none; transform: none; }
+  .comp svg { stroke-dashoffset: 0; }
+  .hb { transform: none; }
+}
+
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1120px) {

@@ -24,6 +24,86 @@
     links.addEventListener('click', function (e) { if (e.target.tagName === 'A') links.classList.remove('open'); });
   }
 
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Headlines rise word by word out of a mask
+  function splitWords(el) {
+    let i = 0;
+    (function walk(node) {
+      Array.from(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span');
+            w.className = 'w';
+            const inner = document.createElement('span');
+            inner.textContent = part;
+            inner.style.setProperty('--i', i++);
+            w.appendChild(inner);
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') walk(n);
+      });
+    })(el);
+    el.classList.add('split');
+    if (!el.classList.contains('reveal')) el.setAttribute('data-observe', '');
+  }
+  if (!still) document.querySelectorAll('main h1, main h2:not(.cf-title)').forEach(splitWords);
+
+  // Lists and grids come in one item after another
+  document.querySelectorAll('.hero-copy, .stats, .service-list, .process-steps, .comp-grid, .port-grid, .principle-list, .team-grid, .shop-row, .routes, .contact-info, .faq-list').forEach(function (list) {
+    let n = 0;
+    Array.from(list.children).forEach(function (el) {
+      el.style.setProperty('--n', n);
+      el.style.setProperty('--d', (n++ * 90) + 'ms');
+    });
+  });
+
+  // Scroll progress, a saffron hairline under the header
+  if (header) {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    bar.innerHTML = '<i></i>';
+    header.appendChild(bar);
+    const fill = bar.firstChild;
+    const onProgress = function () {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      fill.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+    };
+    onProgress();
+    window.addEventListener('scroll', onProgress, { passive: true });
+  }
+
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!still && finePointer) {
+    // Hero bottles lean towards the pointer, each at its own depth
+    const stage = document.querySelector('.hero-stage');
+    const hero = document.querySelector('.hero');
+    if (stage && hero) {
+      hero.addEventListener('pointermove', function (e) {
+        const r = stage.getBoundingClientRect();
+        stage.style.setProperty('--mx', ((e.clientX - r.left) / r.width - .5).toFixed(3));
+        stage.style.setProperty('--my', ((e.clientY - r.top) / r.height - .5).toFixed(3));
+      });
+      hero.addEventListener('pointerleave', function () { stage.style.setProperty('--mx', 0); stage.style.setProperty('--my', 0); });
+    }
+    // Portfolio cards tilt under the pointer
+    document.querySelectorAll('.port-art').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        card.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg');
+        card.style.setProperty('--sx', ((x + .5) * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('pointerleave', function () { card.style.setProperty('--ry', '0deg'); card.style.setProperty('--rx', '0deg'); });
+    });
+  }
+
   // Scroll reveals and counters
   const io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
