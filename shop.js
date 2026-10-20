@@ -245,6 +245,38 @@
     } else notes.innerHTML = '<p class="eyebrow">Notes</p><p class="note-tbc">The note breakdown for ' + esc(p.name) + ' is to come from CASSIE.</p>';
     reveal(notes);
 
+    // sample reviews (placeholders for the design), picked per product so each page differs
+    const seed = p.slug.split('').reduce(function (a, c) { return (a * 31 + c.charCodeAt(0)) % 9973; }, 7);
+    const settle = p.notes ? 'The ' + p.notes.heart[0].toLowerCase() + ' comes through beautifully after an hour.' : 'The dry-down after an hour is the best part.';
+    const pool = [
+      { n: 'Mariam K.', c: 'Dubai', r: 5, t: 'My new signature', b: 'I get asked what I am wearing every time. ' + settle },
+      { n: 'Omar S.', c: 'Abu Dhabi', r: 5, t: 'Lasts all day', b: 'Sprayed it in the morning and could still smell it on my scarf at night. Very good value for the quality.' },
+      { n: 'Hannah L.', c: 'London', r: 4, t: 'Elegant and different', b: 'Not like anything else I own. Opens bright, then settles into something warm and close to the skin.' },
+      { n: 'Ayesha R.', c: 'Sharjah', r: 5, t: 'Beautiful bottle too', b: 'Bought it as a gift and ended up keeping one for myself. The bottle looks lovely on the dresser.' },
+      { n: 'Daniel M.', c: 'Riyadh', r: 4, t: 'Great for evenings', b: 'A little strong at first, so two sprays is enough. Perfect for dinners and events.' },
+      { n: 'Fatima Z.', c: 'Muscat', r: 5, t: 'Compliments every time', b: 'Fast delivery and the scent is exactly as described. ' + p.name + ' is now on my monthly list.' }
+    ];
+    const picks = [0, 1, 2, 3].map(function (i) { return pool[(seed + i * 2) % pool.length]; }).filter(function (x, i, a) { return a.indexOf(x) === i; }).slice(0, 3);
+    const count = 12 + seed % 40;
+    const score = (4.6 + (seed % 4) / 10).toFixed(1);
+    const starRow = function (r) { return '<span class="stars" style="--r:' + r + '" aria-label="' + r + ' out of 5 stars"></span>'; };
+    document.getElementById('rvScore').textContent = score;
+    document.getElementById('rvStars').outerHTML = starRow(score);
+    document.getElementById('rvCount').textContent = 'Based on ' + count + ' reviews';
+    const split = [Math.round(count * .78), Math.round(count * .15), Math.round(count * .05), 0, 0];
+    split[0] += count - split.reduce(function (a, b) { return a + b; }, 0);
+    document.getElementById('rvBars').innerHTML = split.map(function (v, i) {
+      return '<li><span>' + (5 - i) + '</span><i style="--w:' + (v / count * 100).toFixed(0) + '%"></i><em>' + v + '</em></li>';
+    }).join('');
+    document.getElementById('rvGrid').innerHTML = picks.map(function (r, i) {
+      return '<article class="rv-card reveal" style="--d:' + (i * 100) + 'ms">' + starRow(r.r) + '<h3>' + esc(r.t) + '</h3><p>' + esc(r.b) + '</p><footer><b>' + r.n + '</b><span>' + r.c + '</span></footer></article>';
+    }).join('');
+    reveal(document.getElementById('rvGrid'));
+    document.getElementById('rvWrite').addEventListener('click', function () {
+      this.textContent = 'Reviews open on the live shop';
+      this.disabled = true;
+    });
+
     // gallery: rail of thumbnails, arrows and a counter
     const main = document.getElementById('galleryMain');
     const thumbs = document.getElementById('galleryThumbs');

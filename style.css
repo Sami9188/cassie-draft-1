@@ -806,6 +806,29 @@ body, .site-header, .process, .kitspec, .marquee span { transition: background-c
 .pdp-acc summary::after { content: "+"; font-family: var(--f-text); color: var(--saffron-deep); transition: transform .3s var(--ease); }
 .pdp-acc[open] summary::after { transform: rotate(45deg); }
 .pdp-acc p { margin-top: 12px; color: var(--muted); font-size: 16px; line-height: 1.65; }
+.reviews { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: clamp(32px, 5vw, 80px); padding: clamp(64px, 8vw, 112px) var(--pad); border-top: 1px solid var(--line); }
+.reviews-summary { display: grid; gap: 18px; align-content: start; }
+.rv-score { display: flex; align-items: center; gap: 18px; }
+.rv-score > b { font-family: var(--f-display); font-weight: 400; font-size: clamp(64px, 6vw, 88px); line-height: .9; color: var(--vetiver); }
+.rv-score > div { display: grid; gap: 6px; }
+.rv-score small { font-size: 14px; color: var(--muted); }
+.stars { --r: 5; --star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.3L12 17.1l-5.7 3.1 1.2-6.3-4.7-4.4 6.4-.8z'/%3E%3C/svg%3E"); display: inline-block; width: 100px; height: 18px; background: linear-gradient(90deg, var(--saffron) calc(var(--r) / 5 * 100%), rgba(var(--vetiver-rgb), .18) 0); -webkit-mask: var(--star) left / 20px 18px repeat-x; mask: var(--star) left / 20px 18px repeat-x; }
+.rv-bars { list-style: none; display: grid; gap: 8px; max-width: 320px; }
+.rv-bars li { display: grid; grid-template-columns: 14px minmax(0, 1fr) 26px; align-items: center; gap: 12px; font-size: 13px; color: var(--stone); }
+.rv-bars i { height: 6px; border-radius: 6px; background: rgba(var(--vetiver-rgb), .1); position: relative; overflow: hidden; }
+.rv-bars i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--vetiver); border-radius: 6px; }
+.rv-bars em { font-style: normal; text-align: right; }
+.reviews-summary .btn { justify-self: start; }
+.rv-note { font-size: 13px; }
+.rv-head h2 { margin-bottom: clamp(22px, 2.4vw, 32px); }
+.rv-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.rv-card { display: flex; flex-direction: column; gap: 12px; padding: 24px 22px; border: 1px solid var(--line); border-radius: var(--r-tile); background: var(--white); }
+.rv-card .stars { width: 80px; height: 14px; -webkit-mask-size: 16px 14px; mask-size: 16px 14px; }
+.rv-card h3 { font-size: 23px; color: var(--vetiver); }
+.rv-card p { font-size: 15.5px; color: var(--ink-soft); line-height: 1.6; }
+.rv-card footer { margin-top: auto; display: flex; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.rv-card footer b { font-weight: 600; color: var(--ink); }
+.rv-card footer span { color: var(--stone); }
 .pdp-story { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(36px, 6vw, 100px); align-items: center; padding: clamp(72px, 9vw, 128px) var(--pad); background: radial-gradient(60% 80% at 15% 30%, rgba(var(--saffron-rgb), .16), transparent 65%), linear-gradient(160deg, var(--vetiver), var(--ink)); color: var(--porcelain); }
 .pdp-story .eyebrow { color: var(--saffron); }
 .pdp-story .eyebrow::before { background: var(--saffron); }
@@ -858,7 +881,8 @@ body, .site-header, .process, .kitspec, .marquee span { transition: background-c
   .pdp-facts { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pdp-facts div:nth-child(3) { border-left: 0; }
   .pdp-facts div:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .pdp-story, .pdp-wear { grid-template-columns: minmax(0, 1fr); }
+  .pdp-story, .pdp-wear, .reviews { grid-template-columns: minmax(0, 1fr); }
+  .rv-grid { grid-template-columns: minmax(0, 1fr); }
   .note-cols { grid-template-columns: minmax(0, 1fr); }
   .pdp-sticky { left: 12px; right: 12px; bottom: 112px; transform: translateY(200%); justify-content: space-between; opacity: 0; transition: transform .45s var(--ease), opacity .3s var(--ease); }
   .pdp-sticky.on { transform: none; opacity: 1; }
