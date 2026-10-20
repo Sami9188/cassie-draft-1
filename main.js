@@ -51,7 +51,7 @@
     el.classList.add('split');
     if (!el.classList.contains('reveal')) el.setAttribute('data-observe', '');
   }
-  if (!still) document.querySelectorAll('main h1, main h2:not(.cf-title)').forEach(splitWords);
+  if (!still) document.querySelectorAll('main h1:not(#pdpName), main h2:not(.cf-title)').forEach(splitWords);
 
   // Lists and grids come in one item after another
   document.querySelectorAll('.hero-copy, .stats, .mood, .kitspec-grid, .service-list, .process-steps, .comp-grid, .port-grid, .principle-list, .team-grid, .shop-row, .routes, .contact-info, .faq-list').forEach(function (list) {
@@ -168,10 +168,10 @@
     const describe = function () {
       return names.shape[state.shape] + ' bottle · ' + names.capColor[state.capColor] + ' ' + names.cap[state.cap].toLowerCase() + ' · ' + names.glass[state.glass] + ' glass';
     };
-    const draw = function () {
+    const draw = function (quiet) {
       state.liquid = liquids[state.glass];
       render.innerHTML = window.bottleSVG(state);
-      render.classList.remove('swap'); void render.offsetWidth; render.classList.add('swap');
+      if (!quiet) { render.classList.remove('swap'); void render.offsetWidth; render.classList.add('swap'); }
       if (caption) caption.textContent = describe();
     };
     document.querySelectorAll('.opts').forEach(function (group) {
@@ -184,10 +184,19 @@
         draw();
       });
     });
+    // Live brand name: the label on the bottle follows what the visitor types
+    [['packLabel', 'label', 'YOUR BRAND'], ['packSub', 'sub', 'EAU DE PARFUM']].forEach(function (f) {
+      const input = document.getElementById(f[0]);
+      if (!input) return;
+      input.addEventListener('input', function () {
+        state[f[1]] = input.value.trim().toUpperCase() || f[2];
+        draw(true);
+      });
+    });
     draw();
     const toRfq = document.getElementById('packToRfq');
     const field = document.getElementById('packField');
-    if (toRfq && field) toRfq.addEventListener('click', function () { field.value = 'Configuration: ' + describe(); });
+    if (toRfq && field) toRfq.addEventListener('click', function () { field.value = (state.label !== 'YOUR BRAND' ? 'Brand: ' + state.label + (state.sub !== 'EAU DE PARFUM' ? ' / ' + state.sub : '') + '\n' : '') + 'Configuration: ' + describe(); });
   }
 
   // "Order a Sample Kit" pre-ticks the sample box in the quotation form

@@ -8,8 +8,8 @@
   <script>try{var q=new URLSearchParams(location.search).get('theme'),t=q||localStorage.getItem('cassie-theme');if(t==='rouge')document.documentElement.setAttribute('data-theme','rouge')}catch(e){}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter+Tight:wght@300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261020b">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261020e">
 </head>
 <body>
 
@@ -40,15 +40,18 @@
       <span class="lockup-text"><span class="lockup-word">CASSIE</span><span class="lockup-desc">Perfume manufacturing</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="#services">Manufacturing</a></li>
-      <li><a href="#process">Process</a></li>
-      <li><a href="#packaging">Packaging</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html" aria-current="page">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?collection=Luxury">Luxury</a></li>
+      <li><a href="shop.html?category=Gift%20set">Gift Sets</a></li>
+      <li><a href="about.html">Our Story</a></li>
+      <li><a href="contact.html">Contact us</a></li>
       <li class="nav-links-cta"><a href="#rfq" class="btn btn-primary">Request a Quote</a></li>
     </ul>
-    <a href="#rfq" class="btn btn-primary nav-cta">Request a Quote</a>
+    <div class="nav-tools">
+      <a href="shop.html" class="nav-icon" aria-label="Shop bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></a>
+      <a href="#rfq" class="btn btn-primary nav-cta">Request a Quote</a>
+    </div>
     <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </nav>
 </header>
@@ -151,7 +154,12 @@
   <div class="pack-panel">
     <p class="eyebrow">White-label portfolio</p>
     <h2 class="reveal">Dress the fragrance. <em>Build your bottle.</em></h2>
-    <p class="pack-intro">Explore the bottle styles, caps and glass finishes CASSIE can source and assemble. Your selection is attached to your quotation request.</p>
+    <p class="pack-intro">Put your name on our glass. Type your brand, pick the bottle, cap and glass, and the render updates as you go. Your selection is attached to your quotation request.</p>
+
+    <div class="brand-fields">
+      <label><span>Your brand name</span><input type="text" id="packLabel" maxlength="16" placeholder="YOUR BRAND" autocomplete="off" spellcheck="false"></label>
+      <label><span>Line on the label</span><input type="text" id="packSub" maxlength="22" placeholder="EAU DE PARFUM" autocomplete="off" spellcheck="false"></label>
+    </div>
 
     <div class="opt-group">
       <h5>Bottle style</h5>
@@ -206,12 +214,12 @@
     <p class="reveal">Everything a buyer would see on a factory visit, from the filling line to the finished box.</p>
   </div>
   <div class="mood">
-    <figure class="tile reveal w8" tabindex="0"><img data-art="factory" src="atelier/factory-vetiver.svg" alt="Illustration of a filling line with rows of perfume bottles and steel tanks" loading="lazy" width="800" height="420"><figcaption><b>Factory</b><span>Our filling line in Umm Al Quwain. Steel, glass and people mid-task.</span></figcaption></figure>
-    <figure class="tile reveal" tabindex="0"><img data-art="lab" src="atelier/lab-vetiver.svg" alt="Illustration of a pipette dropping perfume into a vial on a precision scale" loading="lazy" width="800" height="420"><figcaption><b>Lab</b><span>Every formula weighed to the milligram and recorded against its batch.</span></figcaption></figure>
-    <figure class="tile reveal" tabindex="0"><img data-art="bottle" src="atelier/bottle-vetiver.svg" alt="Illustration of a faceted perfume bottle in warm side light" loading="lazy" width="800" height="420"><figcaption><b>Bottles</b><span>Your juice, your glass, your label, finished to retail standard.</span></figcaption></figure>
-    <figure class="tile reveal w8" tabindex="0"><img data-art="materials" src="atelier/materials-vetiver.svg" alt="Illustration of rose petals, oud chips, saffron threads and amber resin in ceramic dishes" loading="lazy" width="800" height="420"><figcaption><b>Raw materials</b><span>Rose, oud, saffron and amber, each one coded like a lab sample.</span></figcaption></figure>
-    <figure class="tile reveal w6" tabindex="0"><img data-art="people" src="atelier/people-vetiver.svg" alt="Illustration of a pipette over a fan of coded scent blotters" loading="lazy" width="800" height="420"><figcaption><b>People</b><span>Perfumers and blotters, round after round, until you sign off.</span></figcaption></figure>
-    <figure class="tile reveal w6" tabindex="0"><img data-art="finishing" src="atelier/finishing-vetiver.svg" alt="Illustration of a gift carton tied with satin ribbon and a wax seal" loading="lazy" width="800" height="420"><figcaption><b>Finishing</b><span>Satin ribbon, wax seal and rigid box for a launch-ready delivery.</span></figcaption></figure>
+    <figure class="tile reveal w8" tabindex="0"><img data-art="materials" src="atelier/materials-vetiver.svg" alt="Illustration of rose petals, oud chips, saffron threads and amber resin in ceramic dishes" loading="lazy" width="800" height="420"><figcaption><b><i>01</i>Raw materials</b><span>Rose, oud, saffron and amber, each one coded like a lab sample.</span></figcaption></figure>
+    <figure class="tile reveal" tabindex="0"><img data-art="lab" src="atelier/lab-vetiver.svg" alt="Illustration of a pipette dropping perfume into a vial on a precision scale" loading="lazy" width="400" height="420"><figcaption><b><i>02</i>Lab</b><span>Every formula weighed to the milligram and recorded against its batch.</span></figcaption></figure>
+    <figure class="tile reveal w6" tabindex="0"><img data-art="people" src="atelier/people-vetiver.svg" alt="Illustration of a pipette over a fan of coded scent blotters" loading="lazy" width="600" height="420"><figcaption><b><i>03</i>Evaluation</b><span>Perfumers and blotters, round after round, until you sign off.</span></figcaption></figure>
+    <figure class="tile reveal w6" tabindex="0"><img data-art="bottle" src="atelier/bottle-vetiver.svg" alt="Illustration of a faceted perfume bottle in warm side light" loading="lazy" width="400" height="420"><figcaption><b><i>04</i>Bottles</b><span>Your juice in your glass, finished to retail standard.</span></figcaption></figure>
+    <figure class="tile reveal w8" tabindex="0"><img data-art="factory" src="atelier/factory-vetiver.svg" alt="Illustration of a filling line with rows of perfume bottles and steel tanks" loading="lazy" width="800" height="420"><figcaption><b><i>05</i>Factory</b><span>Our filling line in Umm Al Quwain. Steel, glass and people mid-task.</span></figcaption></figure>
+    <figure class="tile reveal" tabindex="0"><img data-art="boxed" src="atelier/boxed-vetiver.svg" alt="Illustration of a perfume bottle beside its retail carton" loading="lazy" width="640" height="520"><figcaption><b><i>06</i>Boxed & ready</b><span>Bottle and retail carton together, ready to ship.</span></figcaption></figure>
   </div>
 </section>
 
@@ -394,7 +402,7 @@
     </div>
     <div>
       <h6>Company</h6>
-      <a href="about.html">About CASSIE</a><a href="#process">Manufacturing Process</a><a href="#portfolio">Portfolio</a><a href="contact.html">Contact</a><a href="https://www.cassieperfumes.com/">Shop CASSIE Fragrances</a>
+      <a href="about.html">About CASSIE</a><a href="#process">Manufacturing Process</a><a href="#portfolio">Portfolio</a><a href="contact.html">Contact</a><a href="shop.html">Shop CASSIE Fragrances</a>
     </div>
     <div>
       <h6>Contact</h6>
@@ -411,8 +419,8 @@
   <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>
 </a>
 
-<script src="bottle.js?v=20261020b"></script>
-<script src="main.js?v=20261020b"></script>
-<script src="mist.js?v=20261020b"></script>
+<script src="bottle.js?v=20261020e"></script>
+<script src="main.js?v=20261020e"></script>
+<script src="mist.js?v=20261020e"></script>
 </body>
 </html>

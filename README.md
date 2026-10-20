@@ -7,7 +7,7 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Bodoni Moda for display with one italic phrase per headline, Inter Tight for text and for spaced capitals on labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus one spray entering the Process section from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, and portfolio cards tilt. Everything is off with reduced motion.
+Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Cormorant Garamond for display with one italic phrase per headline, Jost for text and for spaced capitals on labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus one spray entering the Process section from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, and portfolio cards tilt. Everything is off with reduced motion.
 
 ## Sections
 
@@ -15,8 +15,8 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 2. Key figures (placeholders)
 3. What we manufacture — OEM, ODM, private/white label, bulk supply & export
 4. Manufacturing process — six steps
-5. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
-6. Inside the atelier — six illustrated tiles (factory, lab, bottles, raw materials, people, finishing)
+5. Packaging configurator — live brand name and label line on the bottle, bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
+6. Inside the atelier — six illustrated tiles in process order (raw materials, lab, evaluation, bottles, factory, boxed carton)
 7. Sample kit and spec sheet
 8. Portfolio (anonymised)
 9. Four-step request for quotation with sample-kit option, footer, WhatsApp button
@@ -24,10 +24,12 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 ## Pages
 
 - `index.html` — home (sections above)
-- `about.html` — story, company facts, how we work, leadership, CASSIE Fragrances and distributor link
+- `about.html` — story, company facts, how we work, leadership, a CASSIE Fragrances carousel of the whole collection and distributor link
+- `shop.html` — the 18 CASSIE Fragrances products with filters (collection, category, for, scent family, size, price), search and sort; filters live in the URL, so `?collection=Luxury` and `?category=Gift%20set` back the Luxury and Gift Sets menu items
+- `product.html?p=slug` — gallery, notes pyramid, details, demo add-to-bag and related products
 - `contact.html` — phone, email, WhatsApp, office and factory, contact form (`?topic=distributor` preselects the topic), quick routes and FAQ
 
-The header and footer are copied from `index.html` into the inner pages; change them in all three files.
+The header menu mirrors cassieperfumes.com (Home, Shop, Luxury, Gift Sets, Our Story, Contact us). The header and footer are copied from `index.html` into the inner pages; change them in every page. Products live in `products.js` (images load from the live cassieperfumes.com media library, with a drawn bottle as fallback); `shop.js` renders the shop, product page and About carousel.
 
 ## Notes
 

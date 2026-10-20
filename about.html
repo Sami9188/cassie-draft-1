@@ -8,8 +8,8 @@
   <script>try{var q=new URLSearchParams(location.search).get('theme'),t=q||localStorage.getItem('cassie-theme');if(t==='rouge')document.documentElement.setAttribute('data-theme','rouge')}catch(e){}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Inter+Tight:wght@300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261020b">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261020e">
 </head>
 <body>
 
@@ -40,15 +40,18 @@
       <span class="lockup-text"><span class="lockup-word">CASSIE</span><span class="lockup-desc">Perfume manufacturing</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html#services">Manufacturing</a></li>
-      <li><a href="index.html#process">Process</a></li>
-      <li><a href="index.html#packaging">Packaging</a></li>
-      <li><a href="index.html#portfolio">Portfolio</a></li>
-      <li><a href="about.html" aria-current="page">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html?collection=Luxury">Luxury</a></li>
+      <li><a href="shop.html?category=Gift%20set">Gift Sets</a></li>
+      <li><a href="about.html" aria-current="page">Our Story</a></li>
+      <li><a href="contact.html">Contact us</a></li>
       <li class="nav-links-cta"><a href="index.html#rfq" class="btn btn-primary">Request a Quote</a></li>
     </ul>
-    <a href="index.html#rfq" class="btn btn-primary nav-cta">Request a Quote</a>
+    <div class="nav-tools">
+      <a href="shop.html" class="nav-icon" aria-label="Shop bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></a>
+      <a href="index.html#rfq" class="btn btn-primary nav-cta">Request a Quote</a>
+    </div>
     <button class="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </nav>
 </header>
@@ -130,13 +133,16 @@
       <h2 class="reveal">CASSIE <em>Fragrances</em></h2>
       <p>Our own collection, made on the same lines we offer our partners.</p>
     </div>
-    <a href="https://www.cassieperfumes.com/" class="btn btn-ghost">Shop the collection</a>
+    <a href="shop.html" class="btn btn-ghost">Shop the collection</a>
   </div>
-  <div class="shop-row">
-    <a class="product reveal" href="https://www.cassieperfumes.com/"><div class="p-img"><img loading="lazy" src="https://www.cassieperfumes.com/wp-content/uploads/2025/08/OUD-ROYALE-1.jpg" alt="Oud Royale perfume bottle" data-fallback='{"shape":"facet","glass":"noir","capColor":"gold","label":"OUD ROYALE","liquid":"#3a1d0c"}'></div><b>Oud Royale</b><span>Oud</span></a>
-    <a class="product reveal" href="https://www.cassieperfumes.com/"><div class="p-img"><img loading="lazy" src="https://www.cassieperfumes.com/wp-content/uploads/2025/07/AFRICA-COUTURE.png" alt="Africa Couture perfume 100ml" data-fallback='{"shape":"column","glass":"amber","capColor":"gold","label":"AFRICA","liquid":"#b06a2a"}'></div><b>Africa Couture</b><span>100 ml</span></a>
-    <a class="product reveal" href="https://www.cassieperfumes.com/"><div class="p-img"><img loading="lazy" src="https://www.cassieperfumes.com/wp-content/uploads/2025/08/perfume-8-1.png" alt="Amor Loco perfume 100ml" data-fallback='{"shape":"orb","glass":"rose","capColor":"rosegold","label":"AMOR LOCO","liquid":"#f1b4a8"}'></div><b>Amor Loco</b><span>Citrus floral</span></a>
-    <a class="product reveal" href="https://www.cassieperfumes.com/"><div class="p-img"><img loading="lazy" src="https://www.cassieperfumes.com/wp-content/uploads/2025/12/Lucid-Dreams.jpg" alt="Lucid Dreams unisex perfume 80ml" data-fallback='{"shape":"slim","glass":"frosted","capColor":"silver","label":"LUCID","liquid":"#e8d6b0"}'></div><b>Lucid Dreams</b><span>Vanilla</span></a>
+  <div class="carousel reveal">
+    <div class="car-track" id="shopCarousel" tabindex="0" role="region" aria-label="CASSIE Fragrances collection"></div>
+    <div class="car-controls">
+      <div class="car-progress" aria-hidden="true"><span></span></div>
+      <span class="car-count" aria-live="polite"></span>
+      <button type="button" class="car-btn" data-dir="-1" aria-label="Previous fragrances"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" class="car-btn" data-dir="1" aria-label="Next fragrances"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
   </div>
   <div class="wholesale">
     <p><b>Want to stock CASSIE?</b> Distributors and resellers can apply for wholesale pricing on our own brand.</p>
@@ -168,7 +174,7 @@
     </div>
     <div>
       <h6>Company</h6>
-      <a href="about.html">About CASSIE</a><a href="index.html#process">Manufacturing Process</a><a href="index.html#portfolio">Portfolio</a><a href="contact.html">Contact</a><a href="https://www.cassieperfumes.com/">Shop CASSIE Fragrances</a>
+      <a href="about.html">About CASSIE</a><a href="index.html#process">Manufacturing Process</a><a href="index.html#portfolio">Portfolio</a><a href="contact.html">Contact</a><a href="shop.html">Shop CASSIE Fragrances</a>
     </div>
     <div>
       <h6>Contact</h6>
@@ -185,8 +191,10 @@
   <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>
 </a>
 
-<script src="bottle.js?v=20261020b"></script>
-<script src="main.js?v=20261020b"></script>
-<script src="mist.js?v=20261020b"></script>
+<script src="bottle.js?v=20261020e"></script>
+<script src="main.js?v=20261020e"></script>
+<script src="mist.js?v=20261020e"></script>
+<script src="products.js?v=20261020e"></script>
+<script src="shop.js?v=20261020e"></script>
 </body>
 </html>
