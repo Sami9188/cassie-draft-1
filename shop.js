@@ -197,39 +197,19 @@
     // gallery
     const main = document.getElementById('galleryMain');
     const thumbs = document.getElementById('galleryThumbs');
-    let custom = '';
-    const customCfg = function () {
-      return Object.assign({}, p.fallback, custom ? { label: custom, sub: p.name.replace(/ –.*/, '').toUpperCase() } : {});
-    };
     const show = function (i) {
-      if (i === 'custom') {
-        main.innerHTML = '<div class="gallery-custom">' + window.bottleSVG(customCfg()) + '</div>';
-      } else {
-        main.innerHTML = '<img src="' + p.images[i] + '" alt="' + esc(p.name) + ', image ' + (i + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
-        window.attachBottleFallbacks && window.attachBottleFallbacks();
-      }
-      main.dataset.view = i;
-      thumbs.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.view === String(i)); });
+      main.innerHTML = '<img src="' + p.images[i] + '" alt="' + esc(p.name) + ', image ' + (i + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
+      window.attachBottleFallbacks && window.attachBottleFallbacks();
+      thumbs.querySelectorAll('button').forEach(function (b, j) { b.setAttribute('aria-selected', j === i); });
     };
     thumbs.innerHTML = p.images.map(function (src, i) {
-      return '<button type="button" role="tab" data-view="' + i + '" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
-    }).join('') + '<button type="button" role="tab" data-view="custom" class="thumb-custom" aria-label="Your name on the bottle">' + window.bottleSVG(customCfg()) + '<span>Your name</span></button>';
-    thumbs.querySelectorAll('button').forEach(function (b) {
-      b.addEventListener('click', function () { show(b.dataset.view === 'custom' ? 'custom' : +b.dataset.view); });
-      const img = b.querySelector('img');
-      if (img) img.addEventListener('error', function () { b.remove(); }, { once: true });
+      return '<button type="button" role="tab" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
+    }).join('');
+    thumbs.querySelectorAll('button').forEach(function (b, i) {
+      b.addEventListener('click', function () { show(i); });
+      b.querySelector('img').addEventListener('error', function () { b.remove(); }, { once: true });
     });
     show(0);
-
-    // name on the label: typing switches the main view to the drawn bottle and writes the name on it
-    const nameInput = document.getElementById('pdpLabel');
-    const thumbCustom = thumbs.querySelector('.thumb-custom');
-    nameInput.addEventListener('input', function () {
-      custom = nameInput.value.trim().toUpperCase();
-      const svg = main.querySelector('.gallery-custom');
-      if (svg) svg.innerHTML = window.bottleSVG(customCfg()); else show('custom');
-      thumbCustom.innerHTML = window.bottleSVG(customCfg()) + '<span>Your name</span>';
-    });
 
     // light zoom that follows the pointer
     main.addEventListener('pointermove', function (e) {
@@ -246,7 +226,7 @@
     const toast = document.getElementById('toast');
     document.getElementById('addToBag').addEventListener('click', function () {
       const n = +qty.value || 1;
-      toast.innerHTML = n + ' × ' + esc(p.name) + (custom ? ' with “' + esc(custom) + '” on the label' : '') + ' added. In the live site this goes to the CASSIE checkout.';
+      toast.innerHTML = n + ' × ' + esc(p.name) + ' added. In the live site this goes to the CASSIE checkout.';
       toast.hidden = false;
       clearTimeout(toast._t);
       toast._t = setTimeout(function () { toast.hidden = true; }, 4200);

@@ -26,7 +26,7 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 - `index.html` — home (sections above)
 - `about.html` — story, company facts, how we work, leadership, a CASSIE Fragrances carousel of the whole collection and distributor link
 - `shop.html` — the 18 CASSIE Fragrances products with filters (collection, category, for, scent family, size, price), search and sort; filters live in the URL, so `?collection=Luxury` and `?category=Gift%20set` back the Luxury and Gift Sets menu items
-- `product.html?p=slug` — gallery, "Your name on the label" field that writes the name on a drawn bottle of that fragrance, notes pyramid, details, demo add-to-bag and related products
+- `product.html?p=slug` — gallery, notes pyramid, details, demo add-to-bag and related products
 - `contact.html` — phone, email, WhatsApp, office and factory, contact form (`?topic=distributor` preselects the topic), quick routes and FAQ
 
 The header menu mirrors cassieperfumes.com (Home, Shop, Luxury, Gift Sets, Our Story, Contact us). The header and footer are copied from `index.html` into the inner pages; change them in every page. Products live in `products.js` (images load from the live cassieperfumes.com media library, with a drawn bottle as fallback); `shop.js` renders the shop, product page and About carousel.
