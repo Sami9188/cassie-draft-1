@@ -88,15 +88,57 @@
     document.getElementById('clearFilters').addEventListener('click', clearAll);
     document.getElementById('emptyClear').addEventListener('click', clearAll);
 
-    // phone: filters slide in as a panel
-    const panel = document.getElementById('filters');
-    const toggle = document.getElementById('filtersToggle');
-    const setOpen = function (open) { panel.classList.toggle('open', open); toggle.setAttribute('aria-expanded', open); document.body.classList.toggle('filters-open', open); };
-    toggle.addEventListener('click', function () { setOpen(!panel.classList.contains('open')); });
-    document.getElementById('filtersDone').addEventListener('click', function () {
-      setOpen(false);
-      const top = document.querySelector('.results').getBoundingClientRect().top + window.scrollY - 80;
-      if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+    // filter dropdowns: one open at a time, placed under their button (fixed, so the scrolling bar never clips them)
+    const bar = document.getElementById('filters');
+    const drops = Array.from(bar.querySelectorAll('.fdrop'));
+    const place = function (d) {
+      const btn = d.querySelector('.fdrop-btn').getBoundingClientRect();
+      const panel = d.querySelector('.fdrop-panel');
+      const w = panel.offsetWidth;
+      panel.style.top = (btn.bottom + 8) + 'px';
+      panel.style.left = Math.max(16, Math.min(btn.left, window.innerWidth - w - 16)) + 'px';
+    };
+    const closeAll = function (except) {
+      drops.forEach(function (d) {
+        if (d === except) return;
+        d.classList.remove('open');
+        d.querySelector('.fdrop-btn').setAttribute('aria-expanded', 'false');
+      });
+    };
+    drops.forEach(function (d) {
+      d.querySelector('.fdrop-btn').addEventListener('click', function () {
+        const open = !d.classList.contains('open');
+        closeAll(d);
+        d.classList.toggle('open', open);
+        this.setAttribute('aria-expanded', open);
+        if (open) place(d);
+      });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.fdrop')) closeAll(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+    const reposition = function () {
+      drops.forEach(function (d) { if (d.classList.contains('open')) place(d); });
+      bar.classList.toggle('stuck', bar.getBoundingClientRect().top <= 70);
+    };
+    window.addEventListener('scroll', reposition, { passive: true });
+    window.addEventListener('resize', reposition);
+    bar.querySelector('.fbar-drops').addEventListener('scroll', reposition, { passive: true });
+    reposition();
+
+    // quick links in the hero filter in place
+    document.querySelectorAll('.shop-hero-links a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        const q = new URLSearchParams(a.getAttribute('href').slice(1));
+        Object.keys(groups).forEach(function (k) { state[k].clear(); });
+        q.forEach(function (v, k) { if (state[k]) state[k].add(v); });
+        document.querySelectorAll('.fopt input').forEach(function (i) {
+          const k = i.closest('[data-filter]').dataset.filter;
+          i.checked = state[k].has(k === 'size' ? +i.value : i.value);
+        });
+        render();
+        window.scrollTo({ top: catalogueTop(), behavior: 'smooth' });
+      });
     });
 
     document.getElementById('activeChips').addEventListener('click', function (e) {
@@ -114,7 +156,7 @@
       render();
     });
 
-    const results = document.querySelector('.results');
+    const catalogueTop = function () { return document.getElementById('catalogue').getBoundingClientRect().top + window.scrollY - 68; };
     let first = true;
     function render() {
       let list = all.filter(function (p) {
@@ -143,8 +185,12 @@
       if (state.max < 350) chips.push('<button type="button" data-key="max">Up to AED ' + state.max + ' <span aria-hidden="true">×</span></button>');
       if (state.q) chips.push('<button type="button" data-key="q">“' + esc(state.q) + '” <span aria-hidden="true">×</span></button>');
       document.getElementById('activeChips').innerHTML = chips.join('');
-      const n = chips.length;
-      document.getElementById('filterCount').textContent = n ? '(' + n + ')' : '';
+      document.getElementById('clearFilters').hidden = !chips.length;
+      Object.keys(groups).forEach(function (key) {
+        const badge = bar.querySelector('[data-badge="' + key + '"]');
+        badge.textContent = state[key].size || '';
+      });
+      bar.querySelector('[data-badge="max"]').textContent = state.max < 350 ? '≤ ' + state.max : '';
 
       const q = new URLSearchParams();
       Object.keys(groups).forEach(function (key) { if (state[key].size) q.set(key, Array.from(state[key]).join(',')); });
@@ -152,10 +198,10 @@
       if (theme) q.set('theme', theme);
       history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q.toString() : ''));
 
-      // a shorter list shouldn't leave the visitor looking at the footer: bring the top of the results back into view
-      if (!first && !panel.classList.contains('open')) {
-        const top = results.getBoundingClientRect().top + window.scrollY - 96;
-        if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+      // a shorter list shouldn't leave the visitor looking at the footer: bring the filter bar back to the top
+      if (!first) {
+        const top = catalogueTop();
+        if (window.scrollY > top + 2) window.scrollTo({ top: top, behavior: 'smooth' });
       }
       first = false;
     }
@@ -167,39 +213,64 @@
   if (pdp) {
     const slug = new URLSearchParams(location.search).get('p');
     const p = all.find(function (x) { return x.slug === slug; }) || all[0];
+    const gift = p.category === 'Gift set';
+    const conc = gift ? 'Five 20 ml eau de parfum sprays' : 'Eau de parfum';
     document.title = p.name + ' | CASSIE Fragrances';
     document.getElementById('crumbName').textContent = p.name;
     document.getElementById('pdpName').textContent = p.name;
-    document.getElementById('pdpEyebrow').textContent = p.category === 'Gift set' ? 'CASSIE Gift sets' : 'CASSIE Fragrances';
+    document.getElementById('pdpEyebrow').textContent = p.collection ? 'Luxury collection' : (gift ? 'CASSIE Gift sets' : 'CASSIE Fragrances');
     document.getElementById('pdpLine').textContent = p.line;
-    document.getElementById('pdpPrice').innerHTML = aed(p.price) + (p.size ? ' <span>· ' + sizeLabel(p) + '</span>' : '');
-    document.getElementById('pdpTags').innerHTML = [p.for === 'Unisex' ? 'Unisex' : 'For ' + p.for.toLowerCase(), p.family, p.category === 'Gift set' ? '5 × 20 ml' : 'Eau de parfum'].filter(Boolean)
-      .map(function (t) { return '<span class="formula-tag"><span>' + esc(t) + '</span></span>'; }).join('');
+    document.getElementById('pdpPrice').textContent = aed(p.price);
+    document.getElementById('pdpConc').textContent = conc;
+    document.getElementById('pdpFacts').innerHTML = [
+      ['For', p.for === 'Unisex' ? 'Everyone' : p.for],
+      ['Family', p.family],
+      ['Size', gift ? '5 × 20 ml' : sizeLabel(p)],
+      ['Type', gift ? 'Gift set' : 'EDP']
+    ].filter(function (f) { return f[1]; }).map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join('');
+    if (gift || p.size) document.getElementById('pdpSizes').innerHTML = '<button type="button" aria-pressed="true">' + esc(gift ? '5 × 20 ml' : sizeLabel(p)) + '</button>';
+    else document.querySelector('.pdp-option').remove();
     document.getElementById('liveLink').href = p.url;
     document.getElementById('pdpDesc').innerHTML = p.description ? '<p>' + esc(p.description) + '</p>' : '<p><span class="tbc">Description to come from CASSIE</span></p>';
     if (p.ingredients) { document.getElementById('ingredientsAcc').hidden = false; document.getElementById('pdpIngredients').textContent = p.ingredients; }
 
+    // the story band leads with the first line of the description
+    const first = (p.description || p.line).split(/(?<=[.!?])\s/)[0];
+    document.getElementById('pdpQuote').textContent = first;
     const notes = document.getElementById('pdpNotes');
     if (p.notes) {
-      notes.innerHTML = '<h2 class="pdp-sub">Notes</h2><div class="pyramid">' + ['top', 'heart', 'base'].map(function (k, i) {
-        return '<div class="tier tier-' + k + '" style="--i:' + i + '"><b>' + { top: 'Top', heart: 'Heart', base: 'Base' }[k] + '</b><span>' + p.notes[k].map(esc).join(' · ') + '</span></div>';
+      notes.innerHTML = '<p class="eyebrow">Notes</p><div class="note-cols">' + ['top', 'heart', 'base'].map(function (k, i) {
+        return '<div class="note-col reveal" style="--d:' + (i * 120) + 'ms"><span class="note-num">0' + (i + 1) + '</span><h3>' + { top: 'Top', heart: 'Heart', base: 'Base' }[k] + '</h3><p>' + { top: 'The first impression', heart: 'Once it settles', base: 'What stays on skin' }[k] + '</p><ul>' + p.notes[k].map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul></div>';
       }).join('') + '</div>';
-    } else notes.remove();
+    } else notes.innerHTML = '<p class="eyebrow">Notes</p><p class="note-tbc">The note breakdown for ' + esc(p.name) + ' is to come from CASSIE.</p>';
+    reveal(notes);
 
-    // gallery
+    // gallery: rail of thumbnails, arrows and a counter
     const main = document.getElementById('galleryMain');
     const thumbs = document.getElementById('galleryThumbs');
+    const counter = document.getElementById('galleryCount');
+    let current = 0;
+    const available = function () { return Array.from(thumbs.querySelectorAll('button')); };
     const show = function (i) {
-      main.innerHTML = '<img src="' + p.images[i] + '" alt="' + esc(p.name) + ', image ' + (i + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
+      const list = available();
+      const n = Math.max(1, list.length);
+      current = (i + n) % n;
+      const idx = list[current] ? +list[current].dataset.i : 0;
+      main.innerHTML = '<img src="' + p.images[idx] + '" alt="' + esc(p.name) + ', image ' + (idx + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
       window.attachBottleFallbacks && window.attachBottleFallbacks();
-      thumbs.querySelectorAll('button').forEach(function (b, j) { b.setAttribute('aria-selected', j === i); });
+      list.forEach(function (b, j) { b.setAttribute('aria-selected', j === current); });
+      counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0');
+      document.querySelector('.gallery').classList.toggle('single', list.length < 2);
     };
     thumbs.innerHTML = p.images.map(function (src, i) {
-      return '<button type="button" role="tab" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
+      return '<button type="button" role="tab" data-i="' + i + '" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
     }).join('');
-    thumbs.querySelectorAll('button').forEach(function (b, i) {
-      b.addEventListener('click', function () { show(i); });
-      b.querySelector('img').addEventListener('error', function () { b.remove(); }, { once: true });
+    available().forEach(function (b) {
+      b.addEventListener('click', function () { show(available().indexOf(b)); });
+      b.querySelector('img').addEventListener('error', function () { b.remove(); show(Math.min(current, available().length - 1)); }, { once: true });
+    });
+    document.querySelectorAll('[data-step]').forEach(function (b) {
+      b.addEventListener('click', function () { show(current + +b.dataset.step); });
     });
     show(0);
 
@@ -210,28 +281,44 @@
       main.style.setProperty('--zy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
     });
 
-    // quantity and bag
+    // quantity, bag and wishlist (front-end demo)
     const qty = document.getElementById('qty');
     document.querySelectorAll('[data-qty]').forEach(function (b) {
       b.addEventListener('click', function () { qty.value = Math.max(1, Math.min(20, (+qty.value || 1) + +b.dataset.qty)); });
     });
     const toast = document.getElementById('toast');
-    document.getElementById('addToBag').addEventListener('click', function () {
+    const add = function () {
       const n = +qty.value || 1;
       toast.innerHTML = n + ' × ' + esc(p.name) + ' added. In the live site this goes to the CASSIE checkout.';
       toast.hidden = false;
       clearTimeout(toast._t);
       toast._t = setTimeout(function () { toast.hidden = true; }, 4200);
-    });
+    };
+    document.getElementById('addToBag').addEventListener('click', add);
+    document.getElementById('stickyAdd').addEventListener('click', function () { add(); document.getElementById('pdpBuy').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    const wish = document.getElementById('wish');
+    wish.addEventListener('click', function () { wish.setAttribute('aria-pressed', wish.getAttribute('aria-pressed') !== 'true'); });
+
+    // sticky buy bar once the main button is out of view
+    const sticky = document.getElementById('pdpSticky');
+    document.getElementById('stickyName').textContent = p.name;
+    document.getElementById('stickyPrice').textContent = aed(p.price);
+    new IntersectionObserver(function (en) {
+      const show = !en[0].isIntersecting && en[0].boundingClientRect.top < 0;
+      sticky.classList.toggle('on', show);
+      sticky.setAttribute('aria-hidden', !show);
+      document.getElementById('stickyAdd').tabIndex = show ? 0 : -1;
+    }).observe(document.getElementById('pdpBuy'));
 
     // related: same family first, then same audience
     const others = all.filter(function (x) { return x.slug !== p.slug; });
     const rel = others.filter(function (x) { return p.family && x.family === p.family; })
       .concat(others.filter(function (x) { return x.for === p.for && x.family !== p.family; }))
-      .concat(others).filter(function (x, i, arr) { return arr.indexOf(x) === i; }).slice(0, 4);
+      .concat(others).filter(function (x, i, arr) { return arr.indexOf(x) === i; }).slice(0, 8);
     if (!p.family) document.querySelector('.related-head h2').innerHTML = 'More from <em>CASSIE.</em>';
     const relGrid = document.getElementById('relatedGrid');
-    relGrid.innerHTML = rel.map(card).join('');
+    relGrid.innerHTML = rel.map(card).join('').replace(/pcard reveal/g, 'pcard');
     reveal(relGrid);
+    if (window.initCarousel) window.initCarousel(relGrid.closest('.carousel'));
   }
 })();

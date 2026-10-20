@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300..600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300..600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261020k">
+  <link rel="stylesheet" href="style.css?v=20261020m">
 </head>
 <body>
 
@@ -58,42 +58,72 @@
 <main>
 
 <!-- ============ SHOP HERO ============ -->
-<section class="page-hero page-hero-slim shop-hero">
-  <div class="page-hero-copy">
+<section class="shop-hero" data-mist="ambient">
+  <div class="shop-hero-copy">
     <p class="eyebrow reveal">CASSIE Fragrances</p>
     <h1 class="reveal">Our own collection, <em>made on our own lines.</em></h1>
-    <p class="page-lede reveal">The fragrances CASSIE makes and sells under its own name, filled in the same factory we offer our partners.</p>
+    <p class="page-lede reveal">The fragrances CASSIE makes and sells under its own name, filled in the same UAE factory we offer our partners.</p>
+    <div class="shop-hero-links reveal">
+      <a href="?collection=Luxury">Luxury</a><a href="?for=Her">For her</a><a href="?for=Him">For him</a><a href="?category=Gift%20set">Gift sets</a>
+    </div>
+  </div>
+  <div class="shop-hero-scene" aria-hidden="true">
+    <div class="scene-arch"></div>
+    <div class="scene-light"></div>
+    <div class="scene-plinth p1"><div class="scene-bottle" data-bottle='{"shape":"slim","glass":"frosted","capColor":"silver","cap":"dome","label":"LUCID","liquid":"#e8d6b0"}'></div></div>
+    <div class="scene-plinth p2"><div class="scene-bottle" data-bottle='{"shape":"facet","glass":"noir","capColor":"gold","cap":"block","label":"OUD ROYALE","sub":"EAU DE PARFUM","liquid":"#3a1d0c"}'></div></div>
+    <div class="scene-plinth p3"><div class="scene-bottle" data-bottle='{"shape":"orb","glass":"rose","capColor":"rosegold","cap":"crystal","label":"AMOR LOCO","liquid":"#f1b4a8"}'></div></div>
+    <div class="scene-plinth p4"><div class="scene-bottle" data-bottle='{"shape":"column","glass":"amber","capColor":"gold","cap":"tall","label":"AFRICA","liquid":"#b06a2a"}'></div></div>
   </div>
 </section>
 
 <!-- ============ CATALOGUE ============ -->
 <section class="catalogue" id="catalogue">
-  <aside class="filters" id="filters" aria-label="Filters">
-    <div class="filters-head"><h2>Filter</h2><button type="button" class="text-link" id="clearFilters">Clear all</button></div>
-    <fieldset class="fgroup"><legend>Collection</legend><div data-filter="collection"></div></fieldset>
-    <fieldset class="fgroup"><legend>Category</legend><div data-filter="category"></div></fieldset>
-    <fieldset class="fgroup"><legend>For</legend><div data-filter="for"></div></fieldset>
-    <fieldset class="fgroup"><legend>Scent family</legend><div data-filter="family"></div></fieldset>
-    <fieldset class="fgroup"><legend>Size</legend><div data-filter="size"></div></fieldset>
-    <fieldset class="fgroup"><legend>Price</legend>
-      <label class="price-range"><span>Up to <b id="priceOut">AED 350</b></span><input type="range" id="priceMax" min="50" max="350" step="10" value="350"></label>
-    </fieldset>
-    <button type="button" class="btn btn-primary filters-done" id="filtersDone">Show results</button>
-  </aside>
+  <div class="fbar" id="filters">
+    <div class="fbar-row">
+      <div class="fbar-drops" aria-label="Filters">
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-collection">Collection<em data-badge="collection"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-collection" role="group" aria-label="Collection"><div data-filter="collection"></div></div>
+      </div>
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-category">Category<em data-badge="category"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-category" role="group" aria-label="Category"><div data-filter="category"></div></div>
+      </div>
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-for">For<em data-badge="for"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-for" role="group" aria-label="For"><div data-filter="for"></div></div>
+      </div>
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-family">Scent family<em data-badge="family"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-family" role="group" aria-label="Scent family"><div data-filter="family"></div></div>
+      </div>
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-size">Size<em data-badge="size"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-size" role="group" aria-label="Size"><div data-filter="size"></div></div>
+      </div>
+      <div class="fdrop">
+        <button type="button" class="fdrop-btn" aria-expanded="false" aria-controls="drop-price">Price<em data-badge="max"></em><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="fdrop-panel" id="drop-price" role="group" aria-label="Price">
+          <label class="price-range"><span>Up to <b id="priceOut">AED 350</b></span><input type="range" id="priceMax" min="50" max="350" step="10" value="350"></label>
+        </div>
+      </div>
+        <button type="button" class="text-link fbar-clear" id="clearFilters" hidden>Clear all</button>
+      </div>
+      <div class="fbar-tools">
+        <label class="search"><span class="sr-only">Search fragrances</span><input type="search" id="shopSearch" placeholder="Search fragrances or notes"></label>
+        <label class="sort"><span>Sort</span><select id="shopSort">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price, low to high</option>
+          <option value="price-desc">Price, high to low</option>
+          <option value="name">Name, A to Z</option>
+        </select></label>
+      </div>
+    </div>
+  </div>
 
   <div class="results">
-    <div class="toolbar">
-      <button type="button" class="btn btn-ghost filters-toggle" id="filtersToggle" aria-controls="filters" aria-expanded="false">Filters <span id="filterCount"></span></button>
-      <label class="search"><span class="sr-only">Search fragrances</span><input type="search" id="shopSearch" placeholder="Search fragrances or notes"></label>
-      <p class="count" id="resultCount" aria-live="polite"></p>
-      <label class="sort"><span>Sort</span><select id="shopSort">
-        <option value="featured">Featured</option>
-        <option value="price-asc">Price, low to high</option>
-        <option value="price-desc">Price, high to low</option>
-        <option value="name">Name, A to Z</option>
-      </select></label>
-    </div>
-    <div class="chips-active" id="activeChips"></div>
+    <div class="results-meta"><p class="count" id="resultCount" aria-live="polite"></p><div class="chips-active" id="activeChips"></div></div>
     <div class="product-grid" id="productGrid"></div>
     <div class="empty" id="emptyState" hidden>
       <p>No fragrance matches those filters.</p>
@@ -155,10 +185,10 @@
   <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg>
 </a>
 
-<script src="bottle.js?v=20261020k"></script>
-<script src="main.js?v=20261020k"></script>
-<script src="mist.js?v=20261020k"></script>
-<script src="products.js?v=20261020k"></script>
-<script src="shop.js?v=20261020k"></script>
+<script src="bottle.js?v=20261020m"></script>
+<script src="main.js?v=20261020m"></script>
+<script src="mist.js?v=20261020m"></script>
+<script src="products.js?v=20261020m"></script>
+<script src="shop.js?v=20261020m"></script>
 </body>
 </html>

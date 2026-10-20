@@ -7,7 +7,7 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Cormorant Garamond for display with one italic phrase per headline, Jost for text and for spaced capitals on labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus one spray entering the Process section from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, and portfolio cards tilt. Everything is off with reduced motion.
+Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Cormorant Garamond for display with one italic phrase per headline, Jost for text and for spaced capitals on labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, and portfolio cards tilt. Everything is off with reduced motion.
 
 ## Sections
 
@@ -25,8 +25,8 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 
 - `index.html` — home (sections above)
 - `about.html` — story, company facts, how we work, leadership, a CASSIE Fragrances carousel of the whole collection and distributor link
-- `shop.html` — the 18 CASSIE Fragrances products with filters (collection, category, for, scent family, size, price), search and sort; filters live in the URL, so a filtered view such as `?collection=Luxury` can be shared
-- `product.html?p=slug` — gallery, notes pyramid, details, demo add-to-bag and related products
+- `shop.html` — hero with a lit still life of CASSIE bottles and quick links, then the 18 products four to a row under a sticky bar of filter dropdowns (collection, category, for, scent family, size, price), search and sort; filters live in the URL, so a filtered view such as `?collection=Luxury` can be shared
+- `product.html?p=slug` — gallery with a thumbnail rail, facts strip, demo add-to-bag and wishlist, a scent story band with the notes, wear tips, a related carousel and a sticky buy bar
 - `contact.html` — phone, email, WhatsApp, office and factory, contact form (`?topic=distributor` preselects the topic), quick routes and FAQ
 
 The header menu uses the cassieperfumes.com labels (Home, Shop, Luxury, Gift Sets, Our Story, Contact us). Shop opens `shop.html`; the others jump to home sections (top, Packaging, Sample kit, Atelier, Request for quotation) and highlight as you scroll. The header and footer are copied from `index.html` into the inner pages; change them in every page. Products live in `products.js` (images load from the live cassieperfumes.com media library, with a drawn bottle as fallback); `shop.js` renders the shop, product page and About carousel.
