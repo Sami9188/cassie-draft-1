@@ -7,18 +7,17 @@ First design direction for the CASSIE Perfumes website redesign, prepared by The
 
 ## The idea
 
-Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Newsreader for display with one italic phrase per headline, Hanken Grotesk for text, IBM Plex Mono only for labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus sprays entering some sections from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, portfolio cards tilt, and compliance icons draw themselves. Everything is off with reduced motion.
+Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: Porcelain ground, Vetiver for authority, Mist for glass and image grounds, Saffron kept to about 5%. Newsreader for display with one italic phrase per headline, Hanken Grotesk for text, IBM Plex Mono only for labels and data. The open-C monogram lockup, formula tags and 1.5px line icons are the graphic elements. Motion stays quiet: 10px fade-ins, a 2px button lift, and a perfume spray from the hero bottle every few seconds plus one spray entering the Process section from the left edge (`mist.js`, canvas particle mist that pauses off-screen). Headlines rise word by word, lists stagger in, a notes marquee runs under the stats, and portfolio cards tilt. Everything is off with reduced motion.
 
 ## Sections
 
-1. Hero — manufacturing-first headline, bottle composition on Mist
+1. Hero — manufacturing-first headline, spraying bottle composition
 2. Key figures (placeholders)
 3. What we manufacture — OEM, ODM, private/white label, bulk supply & export
 4. Manufacturing process — six steps
 5. Packaging configurator — bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
-6. Quality & compliance hub
-7. Portfolio (anonymised)
-8. Four-step request for quotation with sample-kit option, footer, WhatsApp button
+6. Portfolio (anonymised)
+7. Four-step request for quotation with sample-kit option, footer, WhatsApp button
 
 ## Pages
 
