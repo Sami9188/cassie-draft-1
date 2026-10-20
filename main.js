@@ -58,7 +58,7 @@
     let n = 0;
     Array.from(list.children).forEach(function (el) {
       el.style.setProperty('--n', n);
-      el.style.setProperty('--d', (n++ * 90) + 'ms');
+      el.style.setProperty('--d', (Math.min(n++, 5) * 90) + 'ms');
     });
   });
 
@@ -104,6 +104,65 @@
     });
   }
 
+  // Horizontal carousels: arrows page through, the bar shows position, a mouse can drag
+  window.initCarousel = function (wrap) {
+    if (!wrap || wrap.dataset.ready) return;
+    wrap.dataset.ready = '1';
+    const car = wrap.querySelector('.car-track');
+    const bar = wrap.querySelector('.car-progress span');
+    const count = wrap.querySelector('.car-count');
+    const btns = wrap.querySelectorAll('.car-btn');
+    const total = car.children.length;
+    const pad = function (n) { return String(n).padStart(2, '0'); };
+    const cardStep = function () {
+      const c = car.children;
+      return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : car.clientWidth;
+    };
+    const perView = function () { return Math.max(1, Math.round(car.clientWidth / cardStep())); };
+    const update = function () {
+      const max = car.scrollWidth - car.clientWidth;
+      bar.style.width = (car.clientWidth / car.scrollWidth * 100) + '%';
+      bar.style.transform = 'translateX(' + (car.scrollLeft / car.clientWidth * 100) + '%)';
+      btns[0].disabled = car.scrollLeft < 4;
+      btns[1].disabled = car.scrollLeft > max - 4;
+      const first = Math.round(car.scrollLeft / cardStep()) + 1;
+      if (count) count.textContent = pad(first) + '–' + pad(Math.min(total, first + perView() - 1)) + ' / ' + pad(total);
+    };
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { car.scrollBy({ left: +b.dataset.dir * cardStep() * perView(), behavior: 'smooth' }); });
+    });
+    car.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+
+    // drag to scroll with a mouse; touch already swipes natively
+    let startX = 0, startLeft = 0, moved = false, dragging = false;
+    car.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      dragging = true; moved = false; startX = e.clientX; startLeft = car.scrollLeft;
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 5 && !moved) { moved = true; car.classList.add('dragging'); }
+      if (moved) car.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!dragging) return;
+      dragging = false;
+      if (moved) {
+        car.classList.remove('dragging');
+        const step = cardStep();
+        car.scrollTo({ left: Math.round(car.scrollLeft / step) * step, behavior: 'smooth' });
+      }
+    });
+    car.addEventListener('click', function (e) { if (moved) { e.preventDefault(); moved = false; } }, true);
+    car.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    update();
+  };
+  document.querySelectorAll('.carousel').forEach(function (wrap) {
+    if (wrap.querySelector('.car-track').children.length) window.initCarousel(wrap);
+  });
+
   // Theme switch: Vetiver (default) or Rouge Atelier, remembered per visitor
   const root = document.documentElement;
   function applyTheme(t) {
@@ -127,6 +186,26 @@
     try { localStorage.setItem('cassie-theme', b.dataset.themeSet); } catch (err) {}
   });
   applyTheme(root.getAttribute('data-theme') === 'rouge' ? 'rouge' : 'vetiver');
+
+  // Font switch: three type pairings, remembered per visitor
+  function applyFont(f) {
+    if (f === 'playfair' || f === 'instrument') root.setAttribute('data-font', f); else { f = 'cormorant'; root.removeAttribute('data-font'); }
+    document.querySelectorAll('[data-font-set]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.fontSet === f); });
+  }
+  const fontSwitch = document.createElement('div');
+  fontSwitch.className = 'theme-switch font-switch';
+  fontSwitch.setAttribute('role', 'group');
+  fontSwitch.setAttribute('aria-label', 'Site font');
+  fontSwitch.innerHTML = '<span>Font</span><button type="button" data-font-set="cormorant">Cormorant</button><button type="button" data-font-set="playfair">Playfair</button><button type="button" data-font-set="instrument">Instrument</button>';
+  document.body.appendChild(fontSwitch);
+  fontSwitch.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-font-set]');
+    if (!b) return;
+    applyFont(b.dataset.fontSet);
+    try { localStorage.setItem('cassie-font', b.dataset.fontSet); } catch (err) {}
+    window.dispatchEvent(new Event('resize'));
+  });
+  applyFont(root.getAttribute('data-font'));
 
   // Scroll reveals and counters
   const io = new IntersectionObserver(function (entries) {

@@ -94,8 +94,8 @@
   <path d="${body}" fill="url(#${id}g)" stroke="${g.edge}" stroke-width="1.2"/>
   <path d="${body}" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="5" clip-path="url(#${id}k)"/>
   <rect x="58" y="128" width="7" height="150" rx="3.5" fill="rgba(255,255,255,0.28)" clip-path="url(#${id}k)"/>
-  <text x="100" y="212" text-anchor="middle" font-family="Cormorant Garamond, Garamond, Georgia, serif" font-size="${fs.toFixed(1)}" letter-spacing="${ls.toFixed(1)}" fill="${labelColor}">${o.label}</text>
-  ${o.sub ? `<text x="100" y="232" text-anchor="middle" font-family="Jost, Futura, Helvetica, Arial, sans-serif" font-size="${Math.min(7, fs * 0.45).toFixed(1)}" letter-spacing="${Math.min(3, fs*0.18).toFixed(1)}" fill="${labelColor}">${o.sub}</text>` : ''}
+  <text x="100" y="212" text-anchor="middle" style="font-family: var(--f-display, Garamond, Georgia, serif)" font-size="${fs.toFixed(1)}" letter-spacing="${ls.toFixed(1)}" fill="${labelColor}">${o.label}</text>
+  ${o.sub ? `<text x="100" y="232" text-anchor="middle" style="font-family: var(--f-text, Helvetica, Arial, sans-serif)" font-size="${Math.min(7, fs * 0.45).toFixed(1)}" letter-spacing="${Math.min(3, fs*0.18).toFixed(1)}" fill="${labelColor}">${o.sub}</text>` : ''}
 </svg>`;
   };
 

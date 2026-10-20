@@ -18,7 +18,7 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 5. Packaging configurator — live brand name and label line on the bottle, bottle, cap, finish and glass, with "Quote this configuration" feeding the RFQ
 6. Inside the atelier — six illustrated tiles in process order (raw materials, lab, evaluation, bottles, factory, boxed carton)
 7. Sample kit and spec sheet
-8. Portfolio (anonymised)
+8. Portfolio (anonymised), a carousel of ten projects (six added as demo cards to replace with real work)
 9. Four-step request for quotation with sample-kit option, footer, WhatsApp button
 
 ## Pages
@@ -26,7 +26,7 @@ Draft 1's own structure and copy, styled by the rules of the CASSIE brand book: 
 - `index.html` — home (sections above)
 - `about.html` — story, company facts, how we work, leadership, a CASSIE Fragrances carousel of the whole collection and distributor link
 - `shop.html` — the 18 CASSIE Fragrances products with filters (collection, category, for, scent family, size, price), search and sort; filters live in the URL, so `?collection=Luxury` and `?category=Gift%20set` back the Luxury and Gift Sets menu items
-- `product.html?p=slug` — gallery, notes pyramid, details, demo add-to-bag and related products
+- `product.html?p=slug` — gallery, "Your name on the label" field that writes the name on a drawn bottle of that fragrance, notes pyramid, details, demo add-to-bag and related products
 - `contact.html` — phone, email, WhatsApp, office and factory, contact form (`?topic=distributor` preselects the topic), quick routes and FAQ
 
 The header menu mirrors cassieperfumes.com (Home, Shop, Luxury, Gift Sets, Our Story, Contact us). The header and footer are copied from `index.html` into the inner pages; change them in every page. Products live in `products.js` (images load from the live cassieperfumes.com media library, with a drawn bottle as fallback); `shop.js` renders the shop, product page and About carousel.
@@ -37,6 +37,8 @@ The header menu mirrors cassieperfumes.com (Home, Shop, Luxury, Gift Sets, Our S
 - Figures marked with a sand-coloured chip are placeholders and must be confirmed by CASSIE.
 - Forms are front-end demos; CRM / email wiring is part of the build phase.
 
-## Themes
+## Themes and fonts
+
+A second switch above it picks the type pairing: **Cormorant** (Cormorant Garamond + Jost, default), **Playfair** (Playfair Display + Manrope) or **Instrument** (Instrument Serif + Instrument Sans). It is remembered per visitor and `?font=playfair` or `?font=instrument` opens a page with that pairing; the sets live under `:root[data-font=…]` in `style.css`.
 
 A switch at the bottom left swaps between **Vetiver** (default) and **Rouge Atelier** (oxblood, pearl, blush and rose-copper, rounder corners and pill buttons). The choice is remembered per visitor, and `?theme=rouge` on any URL opens a page in Rouge. Colours live as tokens on `:root` and `:root[data-theme="rouge"]` in `style.css`; the illustrations in `atelier/` come in a `-vetiver` and a `-rouge` file and are swapped by `main.js`.

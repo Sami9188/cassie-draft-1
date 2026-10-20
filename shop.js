@@ -30,54 +30,7 @@
   if (car) {
     car.innerHTML = all.map(card).join('').replace(/pcard reveal/g, 'pcard');
     reveal(car);
-    const wrap = car.closest('.carousel');
-    const bar = wrap.querySelector('.car-progress span');
-    const count = wrap.querySelector('.car-count');
-    const btns = wrap.querySelectorAll('.car-btn');
-    const cardStep = function () {
-      const c = car.children;
-      return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : car.clientWidth;
-    };
-    const perView = function () { return Math.max(1, Math.round(car.clientWidth / cardStep())); };
-    const update = function () {
-      const max = car.scrollWidth - car.clientWidth;
-      bar.style.width = (car.clientWidth / car.scrollWidth * 100) + '%';
-      bar.style.transform = 'translateX(' + (car.scrollLeft / car.clientWidth * 100) + '%)';
-      btns[0].disabled = car.scrollLeft < 4;
-      btns[1].disabled = car.scrollLeft > max - 4;
-      const first = Math.round(car.scrollLeft / cardStep()) + 1;
-      count.textContent = String(first).padStart(2, '0') + '–' + String(Math.min(all.length, first + perView() - 1)).padStart(2, '0') + ' / ' + String(all.length).padStart(2, '0');
-    };
-    btns.forEach(function (b) {
-      b.addEventListener('click', function () { car.scrollBy({ left: +b.dataset.dir * cardStep() * perView(), behavior: 'smooth' }); });
-    });
-    car.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-
-    // drag to scroll with a mouse; touch already swipes natively
-    let startX = 0, startLeft = 0, moved = false, dragging = false;
-    car.addEventListener('pointerdown', function (e) {
-      if (e.pointerType !== 'mouse' || e.button !== 0) return;
-      dragging = true; moved = false; startX = e.clientX; startLeft = car.scrollLeft;
-    });
-    window.addEventListener('pointermove', function (e) {
-      if (!dragging) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 5 && !moved) { moved = true; car.classList.add('dragging'); }
-      if (moved) car.scrollLeft = startLeft - dx;
-    });
-    window.addEventListener('pointerup', function () {
-      if (!dragging) return;
-      dragging = false;
-      if (moved) {
-        car.classList.remove('dragging');
-        const step = cardStep();
-        car.scrollTo({ left: Math.round(car.scrollLeft / step) * step, behavior: 'smooth' });
-      }
-    });
-    car.addEventListener('click', function (e) { if (moved) { e.preventDefault(); moved = false; } }, true);
-    car.addEventListener('dragstart', function (e) { e.preventDefault(); });
-    update();
+    if (window.initCarousel) window.initCarousel(car.closest('.carousel'));
   }
 
   /* ---------- Listing ---------- */
@@ -148,7 +101,11 @@
     const toggle = document.getElementById('filtersToggle');
     const setOpen = function (open) { panel.classList.toggle('open', open); toggle.setAttribute('aria-expanded', open); document.body.classList.toggle('filters-open', open); };
     toggle.addEventListener('click', function () { setOpen(!panel.classList.contains('open')); });
-    document.getElementById('filtersDone').addEventListener('click', function () { setOpen(false); });
+    document.getElementById('filtersDone').addEventListener('click', function () {
+      setOpen(false);
+      const top = document.querySelector('.results').getBoundingClientRect().top + window.scrollY - 80;
+      if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+    });
 
     document.getElementById('activeChips').addEventListener('click', function (e) {
       const b = e.target.closest('button[data-key]');
@@ -165,6 +122,8 @@
       render();
     });
 
+    const results = document.querySelector('.results');
+    let first = true;
     function render() {
       let list = all.filter(function (p) {
         for (const key of Object.keys(groups)) if (state[key].size && !state[key].has(valueOf(p, key))) return false;
@@ -200,6 +159,13 @@
       const theme = new URLSearchParams(location.search).get('theme');
       if (theme) q.set('theme', theme);
       history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q.toString() : ''));
+
+      // a shorter list shouldn't leave the visitor looking at the footer: bring the top of the results back into view
+      if (!first && !panel.classList.contains('open')) {
+        const top = results.getBoundingClientRect().top + window.scrollY - 96;
+        if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+      first = false;
     }
     render();
   }
@@ -231,19 +197,39 @@
     // gallery
     const main = document.getElementById('galleryMain');
     const thumbs = document.getElementById('galleryThumbs');
+    let custom = '';
+    const customCfg = function () {
+      return Object.assign({}, p.fallback, custom ? { label: custom, sub: p.name.replace(/ –.*/, '').toUpperCase() } : {});
+    };
     const show = function (i) {
-      main.innerHTML = '<img src="' + p.images[i] + '" alt="' + esc(p.name) + ', image ' + (i + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
-      window.attachBottleFallbacks && window.attachBottleFallbacks();
-      thumbs.querySelectorAll('button').forEach(function (b, j) { b.setAttribute('aria-selected', j === i); });
+      if (i === 'custom') {
+        main.innerHTML = '<div class="gallery-custom">' + window.bottleSVG(customCfg()) + '</div>';
+      } else {
+        main.innerHTML = '<img src="' + p.images[i] + '" alt="' + esc(p.name) + ', image ' + (i + 1) + '" data-fallback=\'' + JSON.stringify(p.fallback) + '\'>';
+        window.attachBottleFallbacks && window.attachBottleFallbacks();
+      }
+      main.dataset.view = i;
+      thumbs.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.view === String(i)); });
     };
     thumbs.innerHTML = p.images.map(function (src, i) {
-      return '<button type="button" role="tab" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
-    }).join('');
-    thumbs.querySelectorAll('button').forEach(function (b, i) {
-      b.addEventListener('click', function () { show(i); });
-      b.querySelector('img').addEventListener('error', function () { b.remove(); }, { once: true });
+      return '<button type="button" role="tab" data-view="' + i + '" aria-label="Image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
+    }).join('') + '<button type="button" role="tab" data-view="custom" class="thumb-custom" aria-label="Your name on the bottle">' + window.bottleSVG(customCfg()) + '<span>Your name</span></button>';
+    thumbs.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.dataset.view === 'custom' ? 'custom' : +b.dataset.view); });
+      const img = b.querySelector('img');
+      if (img) img.addEventListener('error', function () { b.remove(); }, { once: true });
     });
     show(0);
+
+    // name on the label: typing switches the main view to the drawn bottle and writes the name on it
+    const nameInput = document.getElementById('pdpLabel');
+    const thumbCustom = thumbs.querySelector('.thumb-custom');
+    nameInput.addEventListener('input', function () {
+      custom = nameInput.value.trim().toUpperCase();
+      const svg = main.querySelector('.gallery-custom');
+      if (svg) svg.innerHTML = window.bottleSVG(customCfg()); else show('custom');
+      thumbCustom.innerHTML = window.bottleSVG(customCfg()) + '<span>Your name</span>';
+    });
 
     // light zoom that follows the pointer
     main.addEventListener('pointermove', function (e) {
@@ -260,7 +246,7 @@
     const toast = document.getElementById('toast');
     document.getElementById('addToBag').addEventListener('click', function () {
       const n = +qty.value || 1;
-      toast.innerHTML = n + ' × ' + esc(p.name) + ' added. In the live site this goes to the CASSIE checkout.';
+      toast.innerHTML = n + ' × ' + esc(p.name) + (custom ? ' with “' + esc(custom) + '” on the label' : '') + ' added. In the live site this goes to the CASSIE checkout.';
       toast.hidden = false;
       clearTimeout(toast._t);
       toast._t = setTimeout(function () { toast.hidden = true; }, 4200);
