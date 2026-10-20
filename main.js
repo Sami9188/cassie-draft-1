@@ -163,6 +163,22 @@
     if (wrap.querySelector('.car-track').children.length) window.initCarousel(wrap);
   });
 
+  // Header highlights the home section in view (Shop is the only menu item that leaves the page)
+  const spyLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]:not(.btn)'));
+  if (spyLinks.length) {
+    const spy = function () {
+      let current = spyLinks[0], best = -Infinity;
+      spyLinks.forEach(function (a) {
+        const sec = a.getAttribute('href') === '#top' ? null : document.querySelector(a.getAttribute('href'));
+        const top = sec ? sec.getBoundingClientRect().top : -Infinity;
+        if (top < window.innerHeight * .4 && top > best) { best = top; current = a; }
+      });
+      spyLinks.forEach(function (a) { if (a === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    };
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
+  }
+
   // Theme switch: Vetiver (default) or Rouge Atelier, remembered per visitor
   const root = document.documentElement;
   function applyTheme(t) {
@@ -189,14 +205,14 @@
 
   // Font switch: three type pairings, remembered per visitor
   function applyFont(f) {
-    if (f === 'playfair' || f === 'instrument') root.setAttribute('data-font', f); else { f = 'cormorant'; root.removeAttribute('data-font'); }
+    if (f === 'playfair' || f === 'baskerville') root.setAttribute('data-font', f); else { f = 'cormorant'; root.removeAttribute('data-font'); }
     document.querySelectorAll('[data-font-set]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.fontSet === f); });
   }
   const fontSwitch = document.createElement('div');
   fontSwitch.className = 'theme-switch font-switch';
   fontSwitch.setAttribute('role', 'group');
   fontSwitch.setAttribute('aria-label', 'Site font');
-  fontSwitch.innerHTML = '<span>Font</span><button type="button" data-font-set="cormorant">Cormorant</button><button type="button" data-font-set="playfair">Playfair</button><button type="button" data-font-set="instrument">Instrument</button>';
+  fontSwitch.innerHTML = '<span>Font</span><button type="button" data-font-set="cormorant">Cormorant</button><button type="button" data-font-set="playfair">Playfair</button><button type="button" data-font-set="baskerville">Baskerville</button>';
   document.body.appendChild(fontSwitch);
   fontSwitch.addEventListener('click', function (e) {
     const b = e.target.closest('[data-font-set]');

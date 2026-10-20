@@ -58,14 +58,6 @@
       (params.get(key) || '').split(',').filter(Boolean).forEach(function (v) { state[key].add(key === 'size' ? +v : v); });
     });
 
-    // header: Luxury and Gift Sets are filtered views of the shop
-    const navView = state.collection.has('Luxury') ? 'collection=Luxury' : (state.category.has('Gift set') && state.category.size === 1 ? 'category=Gift%20set' : '');
-    if (navView) document.querySelectorAll('.nav-links a').forEach(function (a) {
-      const href = a.getAttribute('href');
-      if (href === 'shop.html') a.removeAttribute('aria-current');
-      if (href === 'shop.html?' + navView) a.setAttribute('aria-current', 'page');
-    });
-
     Object.keys(groups).forEach(function (key) {
       const box = document.querySelector('[data-filter="' + key + '"]');
       box.innerHTML = groups[key].map(function (v) {

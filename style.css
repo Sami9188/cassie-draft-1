@@ -389,7 +389,7 @@ p { max-width: 62ch; }
 .font-switch button { font-size: 15px; letter-spacing: 0; text-transform: none; font-weight: 400; padding: 6px 12px; }
 .font-switch [data-font-set="cormorant"] { font-family: "Cormorant Garamond", Georgia, serif; font-size: 16.5px; }
 .font-switch [data-font-set="playfair"] { font-family: "Playfair Display", Georgia, serif; }
-.font-switch [data-font-set="instrument"] { font-family: "Instrument Serif", Georgia, serif; font-size: 16px; }
+.font-switch [data-font-set="baskerville"] { font-family: "Libre Baskerville", Georgia, serif; font-size: 14px; }
 body, .site-header, .process, .kitspec, .marquee span { transition: background-color .5s var(--ease), color .5s var(--ease); }
 
 
@@ -526,8 +526,8 @@ body, .site-header, .process, .kitspec, .marquee span { transition: background-c
 /* ==========================================================================
    Inner pages: About and Contact
    ========================================================================== */
-.nav-links a[aria-current="page"] { color: var(--saffron-deep); }
-.nav-links a[aria-current="page"]::after { transform: scaleX(1); }
+.nav-links a[aria-current] { color: var(--saffron-deep); }
+.nav-links a[aria-current]::after { transform: scaleX(1); }
 .text-link { color: var(--saffron-deep); font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: color .24s var(--ease); }
 .text-link:hover { color: var(--vetiver); }
 
@@ -815,20 +815,20 @@ body, .site-header, .process, .kitspec, .marquee span { transition: background-c
 @media (max-width: 520px) { .car-track { grid-auto-columns: 70%; } .car-count { display: none; } }
 
 /* ---------- Font sets (switch at the bottom left) ---------- */
-/* Cormorant Garamond + Jost is the default; headings in the other sets are
+/* Cormorant Garamond + Jost is the default, then Playfair Display + Manrope and Libre Baskerville + Montserrat; headings in the other sets are
    matched to Cormorant's x-height so layouts keep their size. */
 :root[data-font="playfair"] {
   --f-display: "Playfair Display", Georgia, serif;
   --f-text: "Manrope", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "Manrope", "Helvetica Neue", Arial, sans-serif;
 }
-:root[data-font="instrument"] {
-  --f-display: "Instrument Serif", Georgia, serif;
-  --f-text: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
-  --f-mono: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+:root[data-font="baskerville"] {
+  --f-display: "Libre Baskerville", Baskerville, Georgia, serif;
+  --f-text: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
 :root[data-font="playfair"] h1, :root[data-font="playfair"] h2, :root[data-font="playfair"] h3, :root[data-font="playfair"] h4,
-:root[data-font="instrument"] h1, :root[data-font="instrument"] h2, :root[data-font="instrument"] h3, :root[data-font="instrument"] h4 { font-size-adjust: ex-height 0.41; }
-:root[data-font="playfair"] body, :root[data-font="instrument"] body { font-size-adjust: ex-height 0.47; }
-:root[data-font="instrument"] h1, :root[data-font="instrument"] h2 { letter-spacing: -.02em; }
+:root[data-font="baskerville"] h1, :root[data-font="baskerville"] h2, :root[data-font="baskerville"] h3, :root[data-font="baskerville"] h4 { font-size-adjust: ex-height 0.41; }
+:root[data-font="playfair"] body, :root[data-font="baskerville"] body { font-size-adjust: ex-height 0.47; }
+:root[data-font="baskerville"] h1, :root[data-font="baskerville"] h2 { letter-spacing: -.025em; }
 
