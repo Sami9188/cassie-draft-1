@@ -30,8 +30,10 @@
     this.puffLeft = 0;
     this.glow = 0;
     this.clock = 0;
+    this.readTint();
     this.resize();
     const self = this;
+    document.addEventListener('themechange', function () { self.readTint(); });
     window.addEventListener('resize', function () { self.resize(); }, { passive: true });
     new IntersectionObserver(function (en) {
       self.visible = en[0].isIntersecting;
@@ -40,6 +42,15 @@
     document.addEventListener('visibilitychange', function () { if (!document.hidden) self.start(); });
     if (this.mode === 'ambient') for (let i = 0; i < this.ambientCount(); i++) this.drops.push(this.ambientDrop(true));
   }
+
+  // spray colours follow the site theme (--spray-rim and --spray-haze on :root)
+  Mist.prototype.readTint = function () {
+    const cs = getComputedStyle(document.documentElement);
+    const rim = (cs.getPropertyValue('--spray-rim') || '30, 58, 52').trim();
+    const haze = (cs.getPropertyValue('--spray-haze') || '176, 200, 189').trim();
+    const jet = haze.split(',').map(function (v) { return Math.round(+v + (255 - v) * .45); }).join(',');
+    this.tint = { rim: rim, haze: haze, jet: jet };
+  };
 
   Mist.prototype.resize = function () {
     const r = this.host.getBoundingClientRect();
@@ -143,8 +154,8 @@
 
   Mist.prototype.draw = function () {
     const c = this.ctx;
-    // on pale grounds white mist disappears, so the cloud takes a mist-green tint and droplets a firmer rim
-    const hazeRGB = this.light ? '176,200,189' : '255,255,255';
+    // on pale grounds white mist disappears, so the cloud takes a tint of the theme and droplets a firmer rim
+    const hazeRGB = this.light ? this.tint.haze : '255,255,255';
     const hazeA = this.light ? .3 : .26;
     const rimK = this.light ? 1.9 : 1;
     c.clearRect(0, 0, this.w, this.h);
@@ -170,7 +181,7 @@
         // still in the jet: draw the droplet as a short motion streak
         const k = Math.min(.016, 7 / v);
         if (this.light) {
-          c.strokeStyle = 'rgba(30,58,52,' + (a * .22) + ')';
+          c.strokeStyle = 'rgba(' + this.tint.rim + ',' + (a * .22) + ')';
           c.lineWidth = p.r * 1.5 + 1;
           c.beginPath(); c.moveTo(p.x - p.vx * k, p.y - p.vy * k + .5); c.lineTo(p.x, p.y + .5); c.stroke();
         }
@@ -182,13 +193,13 @@
         const g = c.createRadialGradient(p.x - p.r * .3, p.y - p.r * .3, 0, p.x, p.y, p.r * 1.6);
         g.addColorStop(0, 'rgba(255,255,255,' + (a * .9) + ')');
         g.addColorStop(.55, 'rgba(255,255,255,' + (a * .35) + ')');
-        g.addColorStop(.8, 'rgba(30,58,52,' + (a * .14 * rimK) + ')');
+        g.addColorStop(.8, 'rgba(' + this.tint.rim + ',' + (a * .14 * rimK) + ')');
         g.addColorStop(1, 'rgba(255,255,255,0)');
         c.fillStyle = g;
         c.beginPath(); c.arc(p.x, p.y, p.r * 1.6, 0, Math.PI * 2); c.fill();
       } else {
         // fine droplet: faint refraction rim, then a bright core
-        c.fillStyle = 'rgba(30,58,52,' + (a * (p.dark ? .28 : .15) * rimK) + ')';
+        c.fillStyle = 'rgba(' + this.tint.rim + ',' + (a * (p.dark ? .28 : .15) * rimK) + ')';
         c.beginPath(); c.arc(p.x + .3, p.y + .4, p.r + .4, 0, Math.PI * 2); c.fill();
         c.fillStyle = 'rgba(255,255,255,' + (p.dark ? a * .5 : a) + ')';
         c.beginPath(); c.arc(p.x - .15, p.y - .2, p.r * .9, 0, Math.PI * 2); c.fill();
@@ -202,7 +213,7 @@
     const s = this.scale;
     const a = this.glow * (this.light ? .7 : .5);
     const len = (this.side ? 260 : 150) * s;
-    const rgb = this.light ? '214,228,221' : '255,255,255';
+    const rgb = this.light ? this.tint.jet : '255,255,255';
     const w0 = (this.side ? 5 : 1.5) * s;
     c.save();
     c.translate(o.x, o.y); c.rotate(o.a);

@@ -54,7 +54,7 @@
   if (!still) document.querySelectorAll('main h1, main h2:not(.cf-title)').forEach(splitWords);
 
   // Lists and grids come in one item after another
-  document.querySelectorAll('.hero-copy, .stats, .service-list, .process-steps, .comp-grid, .port-grid, .principle-list, .team-grid, .shop-row, .routes, .contact-info, .faq-list').forEach(function (list) {
+  document.querySelectorAll('.hero-copy, .stats, .mood, .kitspec-grid, .service-list, .process-steps, .comp-grid, .port-grid, .principle-list, .team-grid, .shop-row, .routes, .contact-info, .faq-list').forEach(function (list) {
     let n = 0;
     Array.from(list.children).forEach(function (el) {
       el.style.setProperty('--n', n);
@@ -103,6 +103,30 @@
       card.addEventListener('pointerleave', function () { card.style.setProperty('--ry', '0deg'); card.style.setProperty('--rx', '0deg'); });
     });
   }
+
+  // Theme switch: Vetiver (default) or Rouge Atelier, remembered per visitor
+  const root = document.documentElement;
+  function applyTheme(t) {
+    if (t === 'rouge') root.setAttribute('data-theme', 'rouge'); else root.removeAttribute('data-theme');
+    document.querySelectorAll('img[data-art]').forEach(function (img) {
+      img.src = 'atelier/' + img.dataset.art + '-' + (t === 'rouge' ? 'rouge' : 'vetiver') + '.svg';
+    });
+    document.querySelectorAll('[data-theme-set]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.themeSet === t); });
+    document.dispatchEvent(new CustomEvent('themechange', { detail: t }));
+  }
+  const switcher = document.createElement('div');
+  switcher.className = 'theme-switch';
+  switcher.setAttribute('role', 'group');
+  switcher.setAttribute('aria-label', 'Site theme');
+  switcher.innerHTML = '<span>Theme</span><button type="button" data-theme-set="vetiver"><i></i>Vetiver</button><button type="button" data-theme-set="rouge"><i></i>Rouge</button>';
+  document.body.appendChild(switcher);
+  switcher.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-theme-set]');
+    if (!b) return;
+    applyTheme(b.dataset.themeSet);
+    try { localStorage.setItem('cassie-theme', b.dataset.themeSet); } catch (err) {}
+  });
+  applyTheme(root.getAttribute('data-theme') === 'rouge' ? 'rouge' : 'vetiver');
 
   // Scroll reveals and counters
   const io = new IntersectionObserver(function (entries) {
